@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 a {
-  @apply hover:bg-black hover:text-white underline first-letter:text-white
+  @apply hover:bg-black hover:text-white underline first-letter:text-slate-400
 }
 
 h1 {
