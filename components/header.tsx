@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export default function Header({
   id,
@@ -11,13 +11,16 @@ export default function Header({
 }) {
   return (
     <>
-      <div className="flex flex-row space-x-4 items-start mb-3">
-        <h1 className="text-center m-auto">
-          <a className="mt-auto" href={`#${id}`}>
+      <div className='flex flex-row space-x-4 items-start mb-3'>
+        <h1 className='text-center m-auto flex'>
+          <a className='mt-auto' href={`#${id}`}>
             #
           </a>
         </h1>
-        <h1 id={id} className={`${className || ""} m-auto font-extrabold`}>
+        <h1
+          id={id}
+          className={`${className || ''} m-auto font-extrabold flex grow`}
+        >
           {children}
         </h1>
       </div>
