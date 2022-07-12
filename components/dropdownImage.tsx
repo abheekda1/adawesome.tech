@@ -42,7 +42,7 @@ export default function DropdownImage({
           })}
         />
       </a>
-      <div className={'not-prose'}>
+      <span className='not-prose'>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           onMouseEnter={() => setHovered(true)}
@@ -59,7 +59,7 @@ export default function DropdownImage({
             { 'h-0': !isClicked && !isHovered }
           )}
         />
-      </div>
+      </span>
     </>
   );
 }
