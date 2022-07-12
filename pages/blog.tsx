@@ -59,7 +59,7 @@ const Blog = ({
           return (
             <div key={idx}>
               <Link href={article.slug || '#'}>
-                <a>{article.description}</a>
+                <a>{article.title}</a>
               </Link>{' '}
               <span className={'text-gray-400 text-xs'}>
                 {new Date(article.timestamp).toLocaleString().split(',')[0]}
