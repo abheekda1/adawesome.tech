@@ -9,13 +9,22 @@ export const getStaticProps = async () => {
   const articleFiles = await fs.readdir(
     path.join(process.cwd(), 'pages', 'blog')
   );
+
   const postModules = await Promise.all(
     articleFiles.map(async (p) => import(`./blog/${p}`))
   );
-  const postMetadata = postModules.map((m) => (m.meta ? m.meta : null));
+
+  const tags = new Set<string>();
+  const postMetadata = postModules.map((m: { meta: Metadata }, idx) => {
+    m.meta.slug = path.parse(articleFiles[idx]).name;
+    m.meta.tags.forEach((t) => tags.add(t));
+    return m.meta;
+  });
+
   return {
     props: {
       articles: postMetadata,
+      tags: Array.from(tags),
     },
   };
   /*
@@ -58,7 +67,7 @@ const Blog = ({
         {articles.map((article, idx) => {
           return (
             <div key={idx}>
-              <Link href={article.slug || '#'}>
+              <Link href={`/blog/${article.slug || ''}`}>
                 <a>{article.title}</a>
               </Link>{' '}
               <span className={'text-gray-400 text-xs'}>
