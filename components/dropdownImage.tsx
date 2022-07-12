@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import { FaCamera, FaLock, FaUnlock } from 'react-icons/fa';
 
-export default function Image({
+export default function DropdownImage({
   className,
   alt,
   title,
@@ -40,23 +40,20 @@ export default function Image({
           })}
         />
       </a>
-      <div className='not-prose'>
-        <img
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          src={src}
-          title={title}
-          alt={alt}
-          className={classNames(
-            className,
-            'not-prose',
-            {
-              'origin-bottom-left transition-all h-auto': isHovered && !isClicked,
-            },
-            { 'h-0': !isClicked && !isHovered }
-          )}
-        />
-        </div>
+      <img
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        src={src}
+        title={title}
+        alt={alt}
+        className={classNames(
+          className,
+          {
+            'origin-bottom-left transition-all h-auto': isHovered && !isClicked,
+          },
+          { 'h-0': !isClicked && !isHovered }
+        )}
+      />
     </>
   );
 }
