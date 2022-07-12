@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import { FaCamera, FaLock, FaUnlock } from "react-icons/fa";
 
-export default function MDXImage({
+export default function Image({
   className,
   alt,
   title,

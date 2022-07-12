@@ -1,29 +1,62 @@
 import { ReactNode } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import Nav from "./nav";
-import MDXHeader from "./mdxHeader";
-import MDXSubheading from "./mdxSubheading";
-import MDXBlockquote from "./mdxBlockquote";
-import MDXImage from "./mdxImage";
+import Header from "./header";
+import Subheading from "./subheading";
+import Blockquote from "./blockquote";
+import Image from "./image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Box from "./box";
 
-export default function ArticleLayout({ children }: { children: ReactNode }) {
+export type Metadata = {
+  title: string;
+  description: string;
+  author: string;
+  tags: Array<string>;
+  slug?: string;
+  timestamp: Date;
+};
+
+export default function ArticleLayout({
+  children,
+  meta,
+}: {
+  children: ReactNode;
+  meta: Metadata;
+}) {
   return (
-    <div className="container mx-auto bg-gray-200 p-5 pb-1 pr-1 max-w-lg md:max-w-xl lg:max-w-2xl shadow-lg my-5 font-mono slashed-zero selection:bg-black selection:text-white">
-      <div className="block pb-4 pr-4 border-b border-r border-gray-400">
-        <Nav />
-        <article className="m-3 p-3 border-t border-l border-gray-400 prose">
-          <MDXProvider
-            components={{
-              h1: (props) => <MDXHeader {...props} />,
-              h2: (props) => <MDXSubheading {...props} />,
-              blockquote: (props) => <MDXBlockquote {...props} />,
-              img: (props) => <MDXImage {...props} />,
-            }}
-          >
-            {children}
-          </MDXProvider>
-        </article>
-      </div>
-    </div>
+    <Box>
+      <article className={"prose"}>
+        <Header id="title">{meta.title}</Header>
+        By: {meta.author}
+        <span className="block text-xs text-gray-400">
+          Created: {new Date(meta.timestamp).toDateString()}
+        </span>{" "}
+        <span className="block text-xs text-gray-400">Tags: [</span>
+        {meta.tags.map((t, idx) => {
+          const params = new URLSearchParams({ tags: t });
+          return (
+            <span key={idx}>
+              <Link href={`/blog/?${params.toString()}`}>
+                <a className="inline-block ml-2 text-xs text-gray-600">{t}</a>
+              </Link>
+              {","}
+            </span>
+          );
+        })}
+        <span className={"block text-xs text-gray-400"}>]</span>
+        <MDXProvider
+          components={{
+            h1: (props) => <Header {...props} />,
+            h2: (props) => <Subheading {...props} />,
+            blockquote: (props) => <Blockquote {...props} />,
+            img: (props) => <Image {...props} />,
+          }}
+        >
+          {children}
+        </MDXProvider>
+      </article>
+    </Box>
   );
 }

@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import ArticleLayout from "../components/articleLayout";
+import Box from "../components/box";
 
 const Home: NextPage = () => {
   return (
     <div>
-      <ArticleLayout>
+      <Box>
         <p>hello</p>
-      </ArticleLayout>
+      </Box>
     </div>
   );
 };

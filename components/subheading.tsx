@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { FaLink } from "react-icons/fa";
 
-export default function MDXSubheading({
+export default function Subheading({
   id,
   children,
   className,

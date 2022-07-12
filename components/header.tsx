@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export default function MDXHeader({
+export default function Header({
   id,
   children,
   className,

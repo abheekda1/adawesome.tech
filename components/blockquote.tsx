@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export default function MDXBlockquote({
+export default function Blockquote({
   children,
   className,
 }: {
