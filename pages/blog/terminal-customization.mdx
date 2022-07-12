@@ -1,0 +1,26 @@
+import ArticleLayout from '../../components/articleLayout.tsx'
+
+# Improve the way your terminal looks and feels
+By: Abheek Dhawan
+***
+
+This is a simple tutorial on how to improve the look and feel of your terminal with these three things:
+- ZSH: a robust alternative to traditional `BASH`
+- ohmyzsh: an amazing framework for `ZSH` with many plugins and themes
+- zsh-autosuggestions: an advanced plugin that makes command completion suggestions based on previous commands.
+
+![The finished product](https://adawesome.tech/blog/zsh-terminal/img/zsh-terminal-1.png "The finished product")
+
+## Step 1:
+The first thing to do is to install `ZSH`. This is default on macOS now, and the shell is located at `/bin/zsh`. If you're using Linux, however, you'll need to install it through the package manager and run the command:
+```bash
+zsh
+```
+in order to go through the first time user setup. Now that ZSH is installed, we have to set it as the default. To do this, run:
+```bash
+chsh -s /path/to/zsh
+```
+with `/path/to/zsh` being either `/usr/bin/zsh` or `/bin/zsh` depending on your system.
+
+
+export default ({ children }) => <ArticleLayout>{children}</ArticleLayout>
