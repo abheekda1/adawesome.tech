@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Box>
-        <div className='not-prose'>
+        <div className='prose'>
           <p>
             I&apos;m Abheek, and I run a YouTube channel where I post tech
             videos! On this website, I put up articles and code for you guys to

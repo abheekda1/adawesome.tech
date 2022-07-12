@@ -19,7 +19,9 @@ export default function DropdownImage({
   return (
     <>
       <a
-        className='underline inline-block'
+        className={classNames({
+          'bg-black text-white': isHovered || isClicked,
+        })}
         onClick={() => {
           setClicked(!isClicked);
           setHovered(false);
@@ -40,20 +42,23 @@ export default function DropdownImage({
           })}
         />
       </a>
-      <img
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        src={src}
-        title={title}
-        alt={alt}
-        className={classNames(
-          className,
-          {
-            'origin-bottom-left transition-all h-auto': isHovered && !isClicked,
-          },
-          { 'h-0': !isClicked && !isHovered }
-        )}
-      />
+      <div className={'not-prose'}>
+        <img
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          src={src}
+          title={title}
+          alt={alt}
+          className={classNames(
+            className,
+            {
+              'origin-bottom-left transition-all h-auto':
+                isHovered && !isClicked,
+            },
+            { 'h-0': !isClicked && !isHovered }
+          )}
+        />
+      </div>
     </>
   );
 }
