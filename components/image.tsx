@@ -40,20 +40,23 @@ export default function Image({
           })}
         />
       </a>
-      <img
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        src={src}
-        title={title}
-        alt={alt}
-        className={classNames(
-          className,
-          {
-            'origin-bottom-left transition-all h-auto': isHovered && !isClicked,
-          },
-          { 'h-0': !isClicked && !isHovered }
-        )}
-      />
+      <div className='not-prose'>
+        <img
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          src={src}
+          title={title}
+          alt={alt}
+          className={classNames(
+            className,
+            'not-prose',
+            {
+              'origin-bottom-left transition-all h-auto': isHovered && !isClicked,
+            },
+            { 'h-0': !isClicked && !isHovered }
+          )}
+        />
+        </div>
     </>
   );
 }
