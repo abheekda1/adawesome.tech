@@ -42,11 +42,11 @@ const Home = ({
             </span>
           </p>
 
-          <DropdownImage
+          {/*<DropdownImage
             src='https://fllstl.codes/_next/image?url=%2Fimg%2Fteam%2Fabheek-dhawan.png&w=1920&q=75'
             title='This is me!'
             alt={'Picture of Abheek'}
-          />
+          />*/}
 
           <div className={'not-prose mt-5'}>
             <Header id={'blog'}>
