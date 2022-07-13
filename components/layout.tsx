@@ -26,7 +26,7 @@ export default function Layout({
         <meta
           property='og:description'
           content={
-            "I'm Abheek, a passionate developer intent on learning everything there is to learn about many interesting technology- related topics. These include, but are not limited to: programming languages such as Go, C++, and TypeScript; the workings of OSes on a software level as well as the hardware counterpart; and finally the inner workings of different software, games, and other media and reverse engineering them. In addition, I run a YouTube channel where I post tech videos. I hope this website will serve as a hub for my many different endeavors and will allow for others to follow along or learn something."
+            "I'm Abheek, a passionate developer intent on learning everything there is to learn about many interesting technology-related topics. These include, but are not limited to: programming languages such as Go, C++, and TypeScript; the workings of OSes on a software level as well as the hardware counterpart; and finally the inner workings of different software, games, and other media and reverse engineering them. In addition, I run a YouTube channel where I post tech videos. I hope this website will serve as a hub for my many different endeavors and will allow for others to follow along or learn something."
           }
         />
         <meta name='theme-color' content='#607dfa' />
