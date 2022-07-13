@@ -1,6 +1,6 @@
-import "../styles/globals.css";
-import "prism-themes/themes/prism-duotone-sea.css";
-import type { AppProps } from "next/app";
+import '../styles/globals.css';
+import 'prism-themes/themes/prism-atom-dark.css';
+import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
