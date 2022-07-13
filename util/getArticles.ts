@@ -20,7 +20,7 @@ export default async function () {
   });
 
   postMetadata.sort(function (a, b) {
-    return parseInt(b.timestamp) - parseInt(a.timestamp);
+    return b.timestamp - a.timestamp;
   });
 
   return {
