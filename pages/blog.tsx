@@ -1,8 +1,5 @@
-import type { NextPage } from 'next';
 import Box from '../components/box';
 import { Metadata } from '../components/articleLayout';
-import { promises as fs } from 'node:fs';
-import path from 'path';
 import Link from 'next/link';
 import getArticles from '../util/getArticles';
 import { useRouter } from 'next/router';
@@ -49,7 +46,7 @@ const Blog = ({
               <Link href={`/blog/${article.slug || ''}`}>
                 <a>{article.title}</a>
               </Link>{' '}
-              <span className={'text-gray-400 text-xs'}>
+              <span className={'text-gray-400 text-xs select-none'}>
                 {new Date(article.timestamp).toLocaleString().split(',')[0]}
               </span>
             </div>

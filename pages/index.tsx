@@ -65,7 +65,7 @@ const Home = ({
                   <Link href={`/blog/${article.slug || ''}`}>
                     <a>{article.title}</a>
                   </Link>{' '}
-                  <span className={'text-gray-400 text-xs'}>
+                  <span className={'text-gray-400 text-xs select-none'}>
                     {new Date(article.timestamp).toLocaleString().split(',')[0]}
                   </span>
                 </div>
