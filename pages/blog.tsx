@@ -4,6 +4,7 @@ import Link from 'next/link';
 import getArticles from '../util/getArticles';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Layout from '../components/layout';
 
 // todo: make single util function
 export const getStaticProps = getArticles;
@@ -37,7 +38,7 @@ const Blog = ({
   }, [filteredArticles, router]);
 
   return (
-    <Box>
+    <Layout title={'Blog'}>
       <>
         <h1>Articles</h1>
         {articleList.map((article, idx) => {
@@ -53,7 +54,7 @@ const Blog = ({
           );
         })}
       </>
-    </Box>
+    </Layout>
   );
 };
 

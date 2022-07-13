@@ -5,8 +5,8 @@ import Subheading from './subheading';
 import Blockquote from './blockquote';
 import DropdownImage from './dropdownImage';
 import Link from 'next/link';
-import Box from './box';
 import Pre from './pre';
+import Layout from './layout';
 
 export type Metadata = {
   title: string;
@@ -25,7 +25,7 @@ export default function ArticleLayout({
   meta: Metadata;
 }) {
   return (
-    <Box>
+    <Layout title={meta.title}>
       <article className={'prose'}>
         <Header id='title'>{meta.title}</Header>
         By: {meta.author}
@@ -57,6 +57,6 @@ export default function ArticleLayout({
           {children}
         </MDXProvider>
       </article>
-    </Box>
+    </Layout>
   );
 }

@@ -6,6 +6,7 @@ import Header from '../components/header';
 import Subheading from '../components/subheading';
 import { Metadata } from '../components/articleLayout';
 import getArticles from '../util/getArticles';
+import Layout from '../components/layout';
 
 export const getStaticProps = getArticles;
 
@@ -18,7 +19,7 @@ const Home = ({
 }) => {
   return (
     <div>
-      <Box>
+      <Layout title={'Home'}>
         <div className='prose'>
           <p>
             I&apos;m Abheek, a passionate developer intent on learning
@@ -73,7 +74,7 @@ const Home = ({
             })}
           </div>
         </div>
-      </Box>
+      </Layout>
     </div>
   );
 };
