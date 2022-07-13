@@ -1,0 +1,74 @@
+export const meta = {
+  title: "Configuring Samba to work better on Mac",
+  description: "",
+  author: "Abheek Dhawan",
+  tags: ["linux", "macos", "server", "file-sharing"],
+  timestamp: 1602046800000,
+};
+
+import ArticleLayout from "../../components/articleLayout.tsx";
+
+So you’ve gone ahead and built yourself a Linux NAS, but your house is filled good ol’ Macs and you don’t find it ideal to have to manually connect to your server every time you want to access it. Well fret not, because Avahi and fruit are here to save the day! These tools will help you access your server as if you were accessing something like your desktop or downloads folder and will allow to you to customize you server’s appearance, even convincing your Mac that your server is a Mac Pro or an Xserve.
+
+![Avahi broadcasting a Samba server](https://adawesome.tech/blog/apple-samba/img/apple-samba-1.jp2 "Avahi broadcasting a Samba server")
+
+## What you need:
+- A Samba server running Linux
+- General command line knowledge
+- Comfort using command line text editors
+
+## Method 1:
+This method uses a `BASH` script written by me which automates the process with just a little bit of user input. Keep in mind this script only works for Ubuntu-based distributions, so if you use Arch Linux or another distribution, please use method 2.
+
+## Step 1:
+The first thing you need to do is install `Samba` and the `Avahi daemon`, enable them, and add a Samba user:
+```bash
+sudo apt install samba avahi-daemon -y
+sudo systemctl enable --now samba
+sudo systemctl enable --now avahi-daemon
+sudo smbpasswd -a [existing user]
+```
+
+## Step 2:
+The next thing you need to do is clone the GitHub repository. To do this, just run the command:
+```bash
+git clone https://github.com/ADawesomeguy/apple-friendly-samba
+# Cloning into 'apple-friendly-samba'...
+# remote: Enumerating objects: 74, done.
+# remote: Counting objects: 100% (74/74), done.
+# remote: Compressing objects: 100% (72/72), done.
+# remote: Total 74 (delta 39), reused 0 (delta 0), pack-reused 0
+# Unpacking objects: 100% (74/74), 21.17 KiB | 803.00 KiB/s, done.
+```
+
+## Step 3
+Once you've done that, just enter the directory, add execute permissions to the setup script, and run it:
+```bash
+cd apple-friendly-samba
+chmod +x apple-samba-create
+./apple-samba-create
+```
+It'll ask for an administrator password, a few questions, and then you're good to go! If you make a mistake, you can either correct by following the tutorial on manually editing the `smb.conf` file, or you can change permissions on the `apple-samba-reset` file and execute it, which will reset all change you've made. To add a new share, you can simply allow execution permissions for the `apple-samba-add` file and execute it, **but only after you have already run `apple-samba-create`** as mentioned above.
+
+## Method 2
+This method involves manually editing smb.conf and modifying values in order to have full control over all changes. Keep in mind that this method involves using command line text editors such as Vim in order to modify the smb.conf file, which resides in the `/etc/samba` directory.
+
+## Step 1
+In this method, the first step is also installing `Samba` and the `Avahi` daemon and enabling them, as well as creating a `Samba` user.
+```bash
+sudo apt install samba avahi-daemon -y
+sudo systemctl enable --now samba
+sudo systemctl enable --now avahi-daemon
+sudo smbpasswd -a [existing user]
+```
+
+## Step 2
+Since we have to manually edit the smb.conf file, we have to select a text editor. In my case, I opted to use `Vim`, but you can also use `Nano`. To access the `smb.conf` file we just have to run the command:
+```bash
+sudo vim /etc/samba/smb.conf
+```
+Now that we're inside the file, we just have to edit a few things. Under `[global]` we have to add these 4 lines:
+
+export default ({ children }) => {
+  return <ArticleLayout meta={meta}>{children}</ArticleLayout>;
+};
