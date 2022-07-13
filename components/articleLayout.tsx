@@ -15,7 +15,7 @@ export type Metadata = {
   author: string;
   tags: Array<string>;
   slug?: string;
-  timestamp: string;
+  timestamp: number;
 };
 
 export default function ArticleLayout({
