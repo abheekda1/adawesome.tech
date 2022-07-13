@@ -68,6 +68,35 @@ Since we have to manually edit the smb.conf file, we have to select a text edito
 sudo vim /etc/samba/smb.conf
 ```
 Now that we're inside the file, we just have to edit a few things. Under `[global]` we have to add these 4 lines:
+```ini
+fruit:aapl = yes
+fruit:adveritse_fullsync = true
+fruit:metadata = stream
+fruit:model = [model]
+```
+Some examples for the model include `Xserve`, `MacPro6,1`, `MacPro7,1`, and `Macmini`. More can be found by running the command (on your Mac):
+```bash
+defaults read /System/Library/CoreServices/CoreTypes.bundle/Contents/Info.plist
+```
+
+## Step 3
+Now that we've configured Samba to work better with Apple devices, we now have to create a share. For this, need to edit the smb.conf file again:
+```bash
+sudo vim /etc/samba/smb.conf
+```
+This time, however, we're going to scroll to the bottom and add our own share. This is what the format looks like:
+```ini
+[Share Name]
+comment = comment
+path = path/to/file
+read only = no
+browseable = yes
+guest ok = no
+valid users = user or @group
+vfs objects = catia fruit streams_xattr
+fruit:time machine = yes/no
+```
+And that's it! Now you have a Samba server that integrates seamlessly with Apple computers.
 
 export default ({ children }) => {
   return <ArticleLayout meta={meta}>{children}</ArticleLayout>;
