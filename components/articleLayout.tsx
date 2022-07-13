@@ -1,13 +1,12 @@
 import { ReactNode } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import Nav from './nav';
 import Header from './header';
 import Subheading from './subheading';
 import Blockquote from './blockquote';
 import DropdownImage from './dropdownImage';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import Box from './box';
+import Pre from './pre';
 
 export type Metadata = {
   title: string;
@@ -52,6 +51,7 @@ export default function ArticleLayout({
             h2: (props) => <Subheading {...props} />,
             blockquote: (props) => <Blockquote {...props} />,
             img: (props) => <DropdownImage {...props} />,
+            pre: (props) => <Pre {...props} />,
           }}
         >
           {children}
