@@ -11,16 +11,17 @@ export default function Header({
 }) {
   return (
     <>
-      <div className='flex flex-row space-x-4 items-start mb-3'>
+      <div
+        className={`flex flex-row space-x-4 items-start mb-3 ${
+          className || ''
+        }`}
+      >
         <h1 className='text-center m-auto flex'>
           <a className='mt-auto' href={`#${id}`}>
             #
           </a>
         </h1>
-        <h1
-          id={id}
-          className={`${className || ''} m-auto font-extrabold flex grow`}
-        >
+        <h1 id={id} className={`m-auto font-extrabold flex grow`}>
           {children}
         </h1>
       </div>

@@ -1,0 +1,32 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+import { Metadata } from '../components/articleLayout';
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default async function () {
+  const articleFiles = await fs.readdir(
+    path.join(process.cwd(), 'pages', 'blog')
+  );
+
+  const postModules = await Promise.all(
+    articleFiles.map(async (p) => import(`../pages/blog/${p}`))
+  );
+
+  const tags = new Set<string>();
+  const postMetadata = postModules.map((m: { meta: Metadata }, idx) => {
+    m.meta.slug = path.parse(articleFiles[idx]).name;
+    m.meta.tags.forEach((t) => tags.add(t));
+    return m.meta;
+  });
+
+  postMetadata.sort(function (a, b) {
+    return parseInt(b.timestamp) - parseInt(a.timestamp);
+  });
+
+  return {
+    props: {
+      articles: postMetadata,
+      tags: Array.from(tags),
+    },
+  };
+}

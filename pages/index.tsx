@@ -2,8 +2,20 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import Box from '../components/box';
 import DropdownImage from '../components/dropdownImage';
+import Header from '../components/header';
+import Subheading from '../components/subheading';
+import { Metadata } from '../components/articleLayout';
+import getArticles from '../util/getArticles';
 
-const Home: NextPage = () => {
+export const getStaticProps = getArticles;
+
+const Home = ({
+  articles,
+  tags,
+}: {
+  articles: Array<Metadata>;
+  tags: Set<string>;
+}) => {
   return (
     <div>
       <Box>
@@ -35,6 +47,27 @@ const Home: NextPage = () => {
             title='This is me!'
             alt={'Picture of Abheek'}
           />
+
+          <div className={'not-prose mt-5'}>
+            <Header id={'blog'}>
+              <Link href={'/blog'}>
+                <a className={'first-letter:text-current'}>Blog</a>
+              </Link>
+            </Header>
+            <Subheading id={'latest-articles'}>Latest articles:</Subheading>
+            {articles.slice(0, 3).map((article, idx) => {
+              return (
+                <div key={idx}>
+                  <Link href={`/blog/${article.slug || ''}`}>
+                    <a>{article.title}</a>
+                  </Link>{' '}
+                  <span className={'text-gray-400 text-xs'}>
+                    {new Date(article.timestamp).toLocaleString().split(',')[0]}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </Box>
     </div>

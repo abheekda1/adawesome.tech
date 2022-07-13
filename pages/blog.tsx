@@ -4,54 +4,12 @@ import { Metadata } from '../components/articleLayout';
 import { promises as fs } from 'node:fs';
 import path from 'path';
 import Link from 'next/link';
+import getArticles from '../util/getArticles';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-export const getStaticProps = async () => {
-  const articleFiles = await fs.readdir(
-    path.join(process.cwd(), 'pages', 'blog')
-  );
-
-  const postModules = await Promise.all(
-    articleFiles.map(async (p) => import(`./blog/${p}`))
-  );
-
-  const tags = new Set<string>();
-  const postMetadata = postModules.map((m: { meta: Metadata }, idx) => {
-    m.meta.slug = path.parse(articleFiles[idx]).name;
-    m.meta.tags.forEach((t) => tags.add(t));
-    return m.meta;
-  });
-
-  return {
-    props: {
-      articles: postMetadata,
-      tags: Array.from(tags),
-    },
-  };
-  /*
-  console.log(fs.readFileSync('terminal-customization.mdx', 'utf-8'));
-  console.log(import(process.cwd() + '\\terminal-customization.mdx'));
-  const data = new Array<Metadata>();
-  const tags = new Set<string>();
-
-  for (const file of articleFiles) {
-    if (!path.parse(file).ext.endsWith('mdx')) continue;
-    import(file).then(({ meta }: { meta: Metadata }) => {
-      console.log(meta);
-      meta.slug = path.parse(file).name;
-      data.push(meta);
-      meta.tags.forEach((tag) => {
-        tags.add(tag);
-      });
-    });
-  }
-
-  return {
-    props: {
-      articles: data,
-      tags: Array.from(tags),
-    },
-  };*/
-};
+// todo: make single util function
+export const getStaticProps = getArticles;
 
 const Blog = ({
   articles,
@@ -60,11 +18,32 @@ const Blog = ({
   articles: Array<Metadata>;
   tags: Set<string>;
 }) => {
+  const router = useRouter();
+
+  const [articleList, setArticleList] = useState<Array<Metadata>>(articles);
+
+  let filteredArticles = articles;
+  useEffect(() => {
+    setArticleList(
+      filteredArticles.filter((a) => {
+        if (router.query.tags) {
+          const queryTags = router.query.tags.toString().split(',');
+          if (queryTags.filter((t) => a.tags.includes(t)).length > 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        return true;
+      })
+    );
+  }, [filteredArticles, router]);
+
   return (
     <Box>
       <>
         <h1>Articles</h1>
-        {articles.map((article, idx) => {
+        {articleList.map((article, idx) => {
           return (
             <div key={idx}>
               <Link href={`/blog/${article.slug || ''}`}>
