@@ -21,12 +21,16 @@ const Home = ({
       <Box>
         <div className='prose'>
           <p>
-            I&apos;m Abheek, and I run a YouTube channel where I post tech
-            videos! On this website, I put up articles and code for you guys to
-            follow along. I love working with computers—particularly servers—and
-            open-source software. On my channel, I often show cool Linux tips
-            and tricks, interesting GitHub software, and useful server
-            applications. Hope you guys enjoy!
+            I&apos;m Abheek, a passionate developer intent on learning
+            everything there is to learn about many interesting technology-
+            related topics. These include, but are not limited to: programming
+            languages such as Go, C++, and TypeScript; the workings of OSes on a
+            software level as well as the hardware counterpart; and finally the
+            inner workings of different software, games, and other media and
+            reverse engineering them. In addition, I run a YouTube channel where
+            I post tech videos. I hope this website will serve as a hub for my
+            many different endeavors and will allow for others to follow along
+            or learn something.
           </p>
 
           <p>
