@@ -67,7 +67,7 @@ const Home = ({
                     <a>{article.title}</a>
                   </Link>{' '}
                   <span className={'text-gray-400 text-xs select-none'}>
-                    {new Date(article.timestamp).toLocaleString().split(',')[0]}
+                    {new Date(article.timestamp).toDateString().split(',')[0]}
                   </span>
                 </div>
               );
