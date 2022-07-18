@@ -1,0 +1,492 @@
+export const meta = {
+  title: "Creating a simple brainfuck interpreter in x64 Assembly",
+  description: "",
+  author: "Abheek Dhawan",
+  tags: ["programming", "assembly", "esolangs"],
+  timestamp: 1658108259000,
+};
+
+import ArticleLayout from "../../components/articleLayout.tsx";
+
+This is my first endeavor into programming in Assembly so of course I decided to go with a classic project by creating and interpreter for the most well-known of the esoteric languages. Since I have never used Assembly in the past, I made a lot of decisions that may not have been the best but it's functional and at the end of the day that's really all that matters.
+
+[Source](https://github.com/ADawesomeguy/brainf-interpreter)
+
+## Approach
+For inspiration and to learn more about brainfuck itself, I took a look at the [wiki](https://esolangs.org/wiki/Brainfuck). This provided me with the basic layout: 30000 1 byte memory cells and a pointer that executes different operations:  
+  
+`>`: move the pointer to the next cell  
+`<`: move the pointer to the previous cell  
+`+`: increment the data in the current cell  
+`-`: decrement the data in the current cell  
+`.`: output the ASCII character at the current cell  
+`,`: get a single character input and store it in the current cell  
+`[`: run normally unless the current cell is at 0, in which case jump past the matching `]`  
+`]`: go back to the matching `[` if the current cell is not 0  
+
+With this newfound knowledge, I began the implementation.
+
+## Implementation
+Since I was just learning Assembly, I began with a simple "hello world" program. Once I had that out of the way, I began messing around with syscalls and created one that read the input of a file and printed it out, similar to a `cat`-like command:
+```nasm filename="bf.asm"
+section .data
+  O_RDONLY equ 0
+
+section .text
+  global _start ; define entrypoint for ld
+
+_start:
+  pop rsi ; get argc
+  pop rcx ; discard program name
+  pop rdi ; get first arg (name of file to read)
+
+  ; restore stack
+  push rdi
+  push rcx
+  push rsi
+
+  call _open_file
+  call _read_file_data
+  call _print_file_data
+
+_open_file:
+  mov rax, 2        ; sys_open
+                    ; rdi is set to the path to be opened
+  mov rsi, O_RDONLY ; read-only
+  mov rdx, 0644o    ; unused while reading
+  syscall
+  mov [fd_in], rax  ; move file descriptor to data at fd_in
+  ret               ; rax has the file descriptor
+
+_read_file_data:
+  mov rax, 0         ; sys_read
+  mov rdi, [fd_in]   ; file descriptor of file obtained from _open_file
+  mov rsi, buf       ; buffer to save data
+  mov rdx, [bufsize] ; max size of buffer
+  syscall
+  ret
+
+_print_file_data:
+  mov rax, 1         ; sys_write
+  mov rdi, 1         ; stdout
+  mov rsi, buf       ; buffer to write
+  mov rdx, [bufsize] ; amount to write
+  syscall
+  ret
+```
+Once that was done, it was time to get to the actual interpretation of the brainfuck opcodes. To do this, I created a new function called `_execute_code`:
+```nasm
+_execute_code:
+  xor rcx, rcx  ; counter
+  xor r8, r8    ; keep track of current cell
+_execute_code_loop:
+  inc rcx
+  cmp byte [buf+rcx-1], '>'
+  je pointer_right
+  cmp byte [buf+rcx-1], '<'
+  je pointer_left
+  cmp byte [buf+rcx-1], '+'
+  je increment
+  cmp byte [buf+rcx-1], '-'
+  je decrement
+  cmp byte [buf+rcx-1], '.'
+  je output
+  cmp byte [buf+rcx-1], ','
+  je input
+  cmp byte [buf+rcx-1], '['
+  je left_bracket
+  cmp byte [buf+rcx-1], ']'
+  je right_bracket
+  cmp rcx, [bufsize]
+  jne _execute_code_loop
+  ret
+pointer_right:
+  inc r8
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+pointer_left:
+  dec r8
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+increment:
+  inc byte [cells + r8]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+decrement:
+  dec byte [cells + r8]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+output:
+  mov rax, 1
+  mov rdi, 1
+  ;mov rsi, current_char
+  mov rsi, cells
+  add rsi, r8
+  mov rdx, 1
+  push rcx
+  syscall
+  pop rcx
+  cmp rcx, [bufsize]
+  jl _execute_code_loop
+  ret
+input:
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+left_bracket:
+  cmp byte [cells + r8], 0
+  je skip_right_bracket_from_left_bracket
+  mov rbx, [left_bracket_sp]
+  mov [left_bracket_stack + rbx], rcx
+  inc byte [left_bracket_sp]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+skip_right_bracket_from_left_bracket:
+  inc rcx
+  cmp byte [buf+rcx-1], '['
+  je inc_num_to_match_right_bracket
+  cmp byte [buf+rcx-1], ']'
+  je check_matching_right_bracket
+  jmp skip_right_bracket_from_left_bracket
+inc_num_to_match_right_bracket:
+  inc byte [num_to_match_right_bracket]
+  jmp skip_right_bracket_from_left_bracket
+check_matching_right_bracket:
+  cmp byte [num_to_match_right_bracket], 0
+  jne dec_matching_right_bracket
+  jmp _execute_code_loop
+dec_matching_right_bracket:
+  dec byte [num_to_match_right_bracket]
+  jmp skip_right_bracket_from_left_bracket
+right_bracket:
+  mov rbx, [left_bracket_sp]
+  mov rcx, 0
+  mov cl, byte [left_bracket_stack + rbx - 1] ; set cl to 000000...byte
+  dec byte [left_bracket_sp]
+  dec rcx ; gets incremented again at the beginning of the loop
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+```
+To be completely honest, it looks like a bit of mess (which is because it is), but let me do my best to break it down.
+```nasm
+_execute_code:
+  xor rcx, rcx  ; counter
+  xor r8, r8    ; keep track of current cell
+...
+```
+This part of the function sets `rcx`, the counter (generally `i` in higher level languages) to 0, as well as r8, which'll be used to keep track of the current cell. The next part is the loop itself:
+```nasm
+_execute_code_loop:
+  inc rcx
+  cmp byte [buf+rcx-1], '>'
+  je pointer_right
+  cmp byte [buf+rcx-1], '<'
+  je pointer_left
+  cmp byte [buf+rcx-1], '+'
+  je increment
+  cmp byte [buf+rcx-1], '-'
+  je decrement
+  cmp byte [buf+rcx-1], '.'
+  je output
+  cmp byte [buf+rcx-1], ','
+  je input
+  cmp byte [buf+rcx-1], '['
+  je left_bracket
+  cmp byte [buf+rcx-1], ']'
+  je right_bracket
+  cmp rcx, [bufsize]
+  jne _execute_code_loop
+  ret
+...
+```
+This loop first increments the counter, checks if the last character matched any of the brainfuck opcodes, and then executes the corresponding operation, repeats the loop, or returns if it's hit the end of the buffer. This is definitely not optimized or readable so it will be hopefully updated some time in the near future. The first few operations were also pretty straighforward to implement:
+```nasm
+right:
+  inc r8
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+pointer_left:
+  dec r8
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+increment:
+  inc byte [cells + r8]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+decrement:
+  dec byte [cells + r8]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+```
+These first four operations matched up pretty much exactly with existing Assembly operations. Output and input could also be implemented similary with the use of their corresponding syscalls. The hard part, however, came with the opcodes used to create loops: `[` and `]`.
+```nasm
+left_bracket:
+  cmp byte [cells + r8], 0
+  ; je skip_right_bracket_loop
+  je skip_right_bracket_from_left_bracket
+  mov rbx, [left_bracket_sp]
+  mov [left_bracket_stack + rbx], rcx
+  inc byte [left_bracket_sp]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+skip_right_bracket_from_left_bracket:
+  inc rcx
+  cmp byte [buf+rcx-1], '['
+  je inc_num_to_match_right_bracket
+  cmp byte [buf+rcx-1], ']'
+  je check_matching_right_bracket
+  jmp skip_right_bracket_from_left_bracket
+inc_num_to_match_right_bracket:
+  inc byte [num_to_match_right_bracket]
+  jmp skip_right_bracket_from_left_bracket
+check_matching_right_bracket:
+  cmp byte [num_to_match_right_bracket], 0
+  jne dec_matching_right_bracket
+  jmp _execute_code_loop
+dec_matching_right_bracket:
+  dec byte [num_to_match_right_bracket]
+  jmp skip_right_bracket_from_left_bracket
+right_bracket:
+  mov rbx, [left_bracket_sp]
+  mov rcx, 0
+  mov cl, byte [left_bracket_stack + rbx - 1] ; set cl to 000000...byte
+  dec byte [left_bracket_sp]
+  dec rcx ; gets incremented again at the beginning of the loop
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+```
+The way I implemented these was to create a stack for the left bracket which would help me keep track of. I also made a "variable" called `num_to_match_right_bracket` which basically increments if it encounters a left bracket and decrements if it encounters a right one. This helps it keep track of which right bracket matches which left bracket. The first part of the `left_bracket` section was checking if the current cell had a value of 0. In this case, it is meant to skip the corresponding right bracket which is implemented in the `skip_right_bracket_from_left_bracket` (these names may a be bit too... detailed). Otherwise, it moves the position of the current left bracket into the bracket stack and continues executing the code loop, creating a recursion that will cause it to loop back when it hits the right bracket and therefore a successful loop.  
+
+> Note: up till now this is not a full program since it's missing some definitions. These are included in the final program.
+
+## Result
+
+```nasm
+section .data
+  not_enough_arg_text db "please add the bf path as an argument!",0x0,0x0a
+  not_enough_arg_len equ $-not_enough_arg_text ; 40
+  bufsize dw 2048
+
+  O_RDONLY equ 0
+  O_WRONLY equ 1
+  O_RDWR   equ 2
+
+  NUM_CELLS equ 30000
+
+  FALSE equ 0
+  TRUE  equ 1
+
+  EXIT_SUCCESS equ 0
+  EXIT_FAILURE equ 1
+
+section .bss
+  path  resb 16
+  buf   resb 1024
+  fd_in resb 1
+  current_char resb 1
+  in_brackets  resb 1
+
+  cells resb NUM_CELLS
+
+  left_bracket_stack resb 32
+  left_bracket_sp    resb 1
+
+  num_to_match_right_bracket resb 1
+
+  argc    resb 1
+  bf_file resb 16 ; max file name length is 16
+
+section .text
+  global _start ; define entrypoint for ld
+
+_start:
+  pop rsi ; get argc
+  cmp rsi, 2
+  jl  _not_enough_args
+  pop rcx ; discard program name
+
+  mov byte [left_bracket_sp], 0
+  mov byte [num_to_match_right_bracket], 0
+
+  pop rdi ; get first argument for _open_file
+  push rdi
+  push rcx
+  push rsi ; ^^^ restore stack
+  call _open_file
+  call _read_file_data
+  call _print_file_data
+  call _execute_code
+
+  mov rdi, EXIT_SUCCESS
+  jmp _exit
+
+_not_enough_args:
+  mov rax, 1 ; sys_write
+  mov rdi, 1 ; stdout
+  mov rsi, not_enough_arg_text
+  mov rdx, not_enough_arg_len
+  syscall
+  mov rdi, EXIT_FAILURE
+  jmp _exit
+
+_exit:
+  ; exit
+  mov rax, 60 ; sys_exit
+  ; mov rdi, 0 ; code 0 (set earlier)
+  syscall
+
+_execute_code:
+  ;lea rdi, [buf] ; address of buffer
+  xor rcx, rcx
+  xor r8, r8 ; keep track of current cell
+_execute_code_loop:
+  inc rcx
+  cmp byte [buf+rcx-1], '>'
+  je pointer_right
+  cmp byte [buf+rcx-1], '<'
+  je pointer_left
+  cmp byte [buf+rcx-1], '+'
+  je increment
+  cmp byte [buf+rcx-1], '-'
+  je decrement
+  cmp byte [buf+rcx-1], '.'
+  je output
+  cmp byte [buf+rcx-1], ','
+  je input
+  cmp byte [buf+rcx-1], '['
+  je left_bracket
+  cmp byte [buf+rcx-1], ']'
+  je right_bracket
+  cmp rcx, [bufsize]
+  jne _execute_code_loop
+  ret
+pointer_right:
+  inc r8
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+pointer_left:
+  dec r8
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+increment:
+  inc byte [cells + r8]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+decrement:
+  dec byte [cells + r8]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+output:
+  mov rax, 1
+  mov rdi, 1
+  ;mov rsi, current_char
+  mov rsi, cells
+  add rsi, r8
+  mov rdx, 1
+  push rcx
+  syscall
+  pop rcx
+  cmp rcx, [bufsize]
+  jl _execute_code_loop
+  ret
+input:
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+left_bracket:
+  cmp byte [cells + r8], 0
+  ; je skip_right_bracket_loop
+  je skip_right_bracket_from_left_bracket
+  mov rbx, [left_bracket_sp]
+  mov [left_bracket_stack + rbx], rcx
+  inc byte [left_bracket_sp]
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+skip_right_bracket_from_left_bracket:
+  inc rcx
+  cmp byte [buf+rcx-1], '['
+  je inc_num_to_match_right_bracket
+  cmp byte [buf+rcx-1], ']'
+  je check_matching_right_bracket
+  jmp skip_right_bracket_from_left_bracket
+inc_num_to_match_right_bracket:
+  inc byte [num_to_match_right_bracket]
+  jmp skip_right_bracket_from_left_bracket
+check_matching_right_bracket:
+  cmp byte [num_to_match_right_bracket], 0
+  jne dec_matching_right_bracket
+  jmp _execute_code_loop
+dec_matching_right_bracket:
+  dec byte [num_to_match_right_bracket]
+  jmp skip_right_bracket_from_left_bracket
+right_bracket:
+  mov rbx, [left_bracket_sp]
+  mov rcx, 0
+  mov cl, byte [left_bracket_stack + rbx - 1] ; set cl to 000000...byte
+  dec byte [left_bracket_sp]
+  dec rcx ; gets incremented again at the beginning of the loop
+  cmp rcx, [bufsize]
+  jle _execute_code_loop
+  ret
+
+_open_file:
+  mov rax, 2 ; sys_open
+  ;mov rdi, bf_file ; open path (set earlier)
+  mov rsi, O_RDONLY ; read-only
+  mov rdx, 0644o
+  syscall
+  mov [fd_in], rax ; move file descriptor to data at fd_in
+  ret ; rax has the file descriptor
+
+_read_file_data:
+  mov rax, 0 ; sys_read
+  mov rdi, [fd_in] ; file descriptor of file in _open_file
+  mov rsi, buf
+  mov rdx, [bufsize]
+  syscall
+  ret
+
+_print_file_data:
+  mov rax, 1 ; sys_write
+  mov rdi, 1 ; stdout
+  mov rsi, buf
+  mov rdx, [bufsize]
+  syscall
+  ret
+```  
+Makefile:
+
+```makefile
+.PHONY: clean
+
+bf: bf.o
+  ld -o bf bf.o
+
+bf.o: bf.asm
+  yasm -f elf64 -m amd64 -g dwarf2 bf.asm
+
+clean:
+  rm -f bf.o
+```
+
+
+export default ({ children }) => {
+  return <ArticleLayout meta={meta}>{children}</ArticleLayout>;
+};
