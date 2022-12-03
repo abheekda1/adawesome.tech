@@ -41,7 +41,7 @@ const Home = ({
               </Link>
             </span>{' '}
             <span>
-              <Link href='https://github.com/ADawesomeguy'>
+              <Link href='https://github.com/abheekda1'>
                 <a>GitHub</a>
               </Link>
             </span>
