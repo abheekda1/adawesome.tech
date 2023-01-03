@@ -42,19 +42,40 @@ const Blog = ({
     ssr: false,
   });
 
+
+  {/* todo: search */}
   return (
     <Layout title={'Blog'}>
       <>
-        <h1>Articles</h1>
+        <div className={'mb-3'}>
+          <h1>Articles</h1>
+          <span className='block text-xs text-gray-400'>Tags: [</span>
+          {/* todo: multiple tags */}
+          {/* todo: highlight current tags */}
+          {Array.from(tags).map((t, idx) => {
+            const params = new URLSearchParams({ tags: t });
+            return (
+              <span key={idx}>
+                <Link href={`/blog/?${params.toString()}`}>
+                  <a className='inline-block ml-2 text-xs text-gray-600'>{t}</a>
+                </Link>
+                {','}
+              </span>
+            );
+          })}
+          <span className={'block text-xs text-gray-400'}>]</span>
+        </div>
+
         {articleList.map((article, idx) => {
           return (
-            <div key={idx}>
+            <div className={'block mb-3'} key={idx}>
+              <p className={'text-gray-400 text-[0.6rem] select-none'}>
+                <DynamicDate timestamp={article.timestamp} />
+              </p>
+              <p className={'text-gray-600 text-[0.6rem] select-none'}>{'['}{article.tags.join(', ')}{']'}</p>
               <Link href={`/blog/${article.slug || ''}`}>
                 <a>{article.title}</a>
-              </Link>{' '}
-              <span className={'text-gray-400 text-xs select-none'}>
-                <DynamicDate timestamp={article.timestamp}/>
-              </span>
+              </Link>
             </div>
           );
         })}
