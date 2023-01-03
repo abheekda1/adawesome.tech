@@ -7,6 +7,7 @@ import Subheading from '../components/subheading';
 import { Metadata } from '../components/articleLayout';
 import getArticles from '../util/getArticles';
 import Layout from '../components/layout';
+import dynamic from 'next/dynamic';
 
 export const getStaticProps = getArticles;
 
@@ -17,6 +18,9 @@ const Home = ({
   articles: Array<Metadata>;
   tags: Set<string>;
 }) => {
+  const DynamicDate = dynamic(() => import('../components/date'), {
+    ssr: false,
+  })
   return (
     <div>
       <Layout title={'Home'}>
@@ -67,7 +71,7 @@ const Home = ({
                     <a>{article.title}</a>
                   </Link>{' '}
                   <span className={'text-gray-400 text-xs select-none'}>
-                    {new Date(article.timestamp).toDateString().split(',')[0]}
+                    <DynamicDate timestamp={article.timestamp} />
                   </span>
                 </div>
               );

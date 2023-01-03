@@ -7,6 +7,7 @@ import DropdownImage from './dropdownImage';
 import Link from 'next/link';
 import Pre from './pre';
 import Layout from './layout';
+import dynamic from 'next/dynamic';
 
 export type Metadata = {
   title: string;
@@ -24,13 +25,17 @@ export default function ArticleLayout({
   children: ReactNode;
   meta: Metadata;
 }) {
+  const DynamicDate = dynamic(() => import('../components/date'), {
+    ssr: false,
+  })
+
   return (
     <Layout title={meta.title}>
       <article className={'prose'}>
         <Header id='title'>{meta.title}</Header>
         By: {meta.author}
         <span className='block text-xs text-gray-400'>
-          Created: {new Date(meta.timestamp).toDateString()}
+          Created: <DynamicDate timestamp={meta.timestamp}/>
         </span>{' '}
         <span className='block text-xs text-gray-400'>Tags: [</span>
         {meta.tags.map((t, idx) => {

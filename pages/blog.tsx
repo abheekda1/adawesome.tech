@@ -5,6 +5,7 @@ import getArticles from '../util/getArticles';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
+import dynamic from 'next/dynamic';
 
 // todo: make single util function
 export const getStaticProps = getArticles;
@@ -37,6 +38,10 @@ const Blog = ({
     );
   }, [filteredArticles, router]);
 
+  const DynamicDate = dynamic(() => import('../components/date'), {
+    ssr: false,
+  });
+
   return (
     <Layout title={'Blog'}>
       <>
@@ -48,7 +53,7 @@ const Blog = ({
                 <a>{article.title}</a>
               </Link>{' '}
               <span className={'text-gray-400 text-xs select-none'}>
-                {new Date(article.timestamp).toLocaleString().split(',')[0]}
+                <DynamicDate timestamp={article.timestamp}/>
               </span>
             </div>
           );
