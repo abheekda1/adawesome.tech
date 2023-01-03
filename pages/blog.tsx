@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import dynamic from 'next/dynamic';
+import ArticleList from '../components/articleList';
 
 // todo: make single util function
 export const getStaticProps = getArticles;
@@ -38,11 +39,6 @@ const Blog = ({
     );
   }, [filteredArticles, router]);
 
-  const DynamicDate = dynamic(() => import('../components/dynamicDate'), {
-    ssr: false,
-  });
-
-
   {/* todo: search */}
   return (
     <Layout title={'Blog'}>
@@ -66,19 +62,7 @@ const Blog = ({
           <span className={'block text-xs text-gray-400'}>]</span>
         </div>
 
-        {articleList.map((article, idx) => {
-          return (
-            <div className={'block mb-3'} key={idx}>
-              <p className={'text-gray-400 text-[0.6rem] select-none'}>
-                <DynamicDate timestamp={article.timestamp} />
-              </p>
-              <p className={'text-gray-600 text-[0.6rem] select-none'}>{'['}{article.tags.join(', ')}{']'}</p>
-              <Link href={`/blog/${article.slug || ''}`}>
-                <a>{article.title}</a>
-              </Link>
-            </div>
-          );
-        })}
+        <ArticleList articles={articleList} />
       </>
     </Layout>
   );

@@ -1,13 +1,10 @@
-import type { NextPage } from 'next';
 import Link from 'next/link';
-import Box from '../components/box';
-import DropdownImage from '../components/dropdownImage';
 import Header from '../components/header';
 import Subheading from '../components/subheading';
 import { Metadata } from '../components/articleLayout';
 import getArticles from '../util/getArticles';
 import Layout from '../components/layout';
-import dynamic from 'next/dynamic';
+import ArticleList from '../components/articleList';
 
 export const getStaticProps = getArticles;
 
@@ -18,9 +15,6 @@ const Home = ({
   articles: Array<Metadata>;
   tags: Set<string>;
 }) => {
-  const DynamicDate = dynamic(() => import('../components/dynamicDate'), {
-    ssr: false,
-  })
   return (
     <div>
       <Layout title={'Home'}>
@@ -64,18 +58,7 @@ const Home = ({
               </Link>
             </Header>
             <Subheading id={'latest-articles'}>Latest articles:</Subheading>
-            {articles.slice(0, 3).map((article, idx) => {
-              return (
-                <div key={idx}>
-                  <Link href={`/blog/${article.slug || ''}`}>
-                    <a>{article.title}</a>
-                  </Link>{' '}
-                  <span className={'text-gray-400 text-xs select-none'}>
-                    <DynamicDate timestamp={article.timestamp} />
-                  </span>
-                </div>
-              );
-            })}
+            <ArticleList articles={articles} limit={3} />
           </div>
         </div>
       </Layout>
