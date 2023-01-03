@@ -18,7 +18,7 @@ const Home = ({
   articles: Array<Metadata>;
   tags: Set<string>;
 }) => {
-  const DynamicDate = dynamic(() => import('../components/date'), {
+  const DynamicDate = dynamic(() => import('../components/dynamicDate'), {
     ssr: false,
   })
   return (

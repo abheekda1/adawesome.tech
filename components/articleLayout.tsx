@@ -25,7 +25,7 @@ export default function ArticleLayout({
   children: ReactNode;
   meta: Metadata;
 }) {
-  const DynamicDate = dynamic(() => import('../components/date'), {
+  const DynamicDate = dynamic(() => import('./dynamicDate'), {
     ssr: false,
   })
 

@@ -38,7 +38,7 @@ const Blog = ({
     );
   }, [filteredArticles, router]);
 
-  const DynamicDate = dynamic(() => import('../components/date'), {
+  const DynamicDate = dynamic(() => import('../components/dynamicDate'), {
     ssr: false,
   });
 
