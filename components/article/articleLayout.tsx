@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import Header from './header';
-import Subheading from './subheading';
-import Blockquote from './blockquote';
-import DropdownImage from './dropdownImage';
+import Header from '../mdx/header';
+import Subheading from '../mdx/subheading';
+import Blockquote from '../mdx/blockquote';
+import DropdownImage from '../mdx/dropdownImage';
 import Link from 'next/link';
-import Pre from './pre';
-import Layout from './layout';
+import Pre from '../mdx/pre';
+import Layout from '../layout';
 import dynamic from 'next/dynamic';
 
 export type Metadata = {
@@ -25,7 +25,7 @@ export default function ArticleLayout({
   children: ReactNode;
   meta: Metadata;
 }) {
-  const DynamicDate = dynamic(() => import('./dynamicDate'), {
+  const DynamicDate = dynamic(() => import('../util/dynamicDate'), {
     ssr: false,
   })
 

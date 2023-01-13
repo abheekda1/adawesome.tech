@@ -3,7 +3,7 @@ import { Metadata } from "./articleLayout";
 import dynamic from "next/dynamic";
 
 export default function ArticleListElement({ article }: { article: Metadata }) {
-    const DynamicDate = dynamic(() => import('../components/dynamicDate'), {
+    const DynamicDate = dynamic(() => import('../util/dynamicDate'), {
         ssr: false,
     });
 

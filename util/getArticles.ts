@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { Metadata } from '../components/articleLayout';
+import { Metadata } from '../components/article/articleLayout';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function () {

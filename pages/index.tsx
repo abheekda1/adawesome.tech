@@ -1,18 +1,29 @@
 import Link from 'next/link';
-import Header from '../components/header';
-import Subheading from '../components/subheading';
-import { Metadata } from '../components/articleLayout';
+import Header from '../components/mdx/header';
+import Subheading from '../components/mdx/subheading';
+import { Metadata as ArticleMetadata } from '../components/article/articleLayout';
+import { Metadata as ProjectMetadata } from '../util/getProject';
 import getArticles from '../util/getArticles';
 import Layout from '../components/layout';
-import ArticleList from '../components/articleList';
+import ArticleList from '../components/article/articleList';
+import ProjectList from '../components/project/projectList';
+import getProject from '../util/getProject';
 
-export const getStaticProps = getArticles;
+export async function getStaticProps() {
+  let props = {};
+  let articleProps = await getArticles();
+  let projectProps = await getProject();
+  Object.assign(props, articleProps.props, projectProps.props);
+  return {props: props};
+};
 
 const Home = ({
   articles,
+  projects,
   tags,
 }: {
-  articles: Array<Metadata>;
+  articles: Array<ArticleMetadata>;
+  projects: Array<ProjectMetadata>;
   tags: Set<string>;
 }) => {
   return (
@@ -51,14 +62,22 @@ const Home = ({
             alt={'Picture of Abheek'}
           />*/}
 
-          <div className={'not-prose mt-5'}>
+          <div className={'not-prose mt-5 mb-5'}>
             <Header id={'blog'}>
               <Link href={'/blog'}>
                 <a className={'first-letter:text-current'}>Blog</a>
               </Link>
             </Header>
             <Subheading id={'latest-articles'}>Latest articles:</Subheading>
-            <ArticleList articles={articles} limit={3} />
+            <ArticleList articles={articles} limit={2} />
+          </div>
+          <div className={'not-prose mt-5 mb-5'}>
+            <Header id={'projects'}>
+              <Link href={'/projects'}>
+                <a className={'first-letter:text-current'}>Projects</a>
+              </Link>
+            </Header>
+            <ProjectList projects={projects} limit={3} descLimit={100} />
           </div>
         </div>
       </Layout>
