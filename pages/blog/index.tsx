@@ -1,12 +1,12 @@
-import Box from '../components/box';
-import { Metadata } from '../components/articleLayout';
+import Box from '../../components/box';
+import { Metadata } from '../../components/articleLayout';
 import Link from 'next/link';
-import getArticles from '../util/getArticles';
+import getArticles from '../../util/getArticles';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Layout from '../components/layout';
+import Layout from '../../components/layout';
 import dynamic from 'next/dynamic';
-import ArticleList from '../components/articleList';
+import ArticleList from '../../components/articleList';
 
 // todo: make single util function
 export const getStaticProps = getArticles;

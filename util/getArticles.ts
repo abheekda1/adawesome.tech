@@ -4,9 +4,11 @@ import { Metadata } from '../components/articleLayout';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function () {
-  const articleFiles = await fs.readdir(
+  let articleFiles = await fs.readdir(
     path.join(process.cwd(), 'pages', 'blog')
   );
+
+  articleFiles = articleFiles.filter((file : string) => file.match(/^.+\.mdx$/));
 
   const postModules = await Promise.all(
     articleFiles.map(async (p) => import(`../pages/blog/${p}`))
