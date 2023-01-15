@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fmt": "prettier --config .prettierrc './**/*.{ts,tsx}' --write"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.8.0",
@@ -21,7 +22,8 @@
     "react-dom": "18.2.0",
     "react-tsparticles": "^2.7.1",
     "rehype-img-size": "^1.0.1",
-    "rehype-slug": "^5.0.1"
+    "rehype-slug": "^5.0.1",
+    "tsparticles": "^2.7.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.3",

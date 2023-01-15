@@ -14,8 +14,8 @@ export async function getStaticProps() {
   let articleProps = await getArticles();
   let projectProps = await getProject();
   Object.assign(props, articleProps.props, projectProps.props);
-  return {props: props};
-};
+  return { props: props };
+}
 
 const Home = ({
   articles,

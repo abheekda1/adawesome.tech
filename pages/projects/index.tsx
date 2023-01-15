@@ -6,21 +6,16 @@ import Layout from '../../components/layout';
 
 export const getStaticProps = getProject;
 
-const Projects = ({
-    projects,
-}: {
-    projects: Array<Metadata>;
-}) => {
-    const router = useRouter();
+const Projects = ({ projects }: { projects: Array<Metadata> }) => {
+  const router = useRouter();
 
-    const [projectList, setProjectList] = useState<Array<Metadata>>(projects);
+  const [projectList, setProjectList] = useState<Array<Metadata>>(projects);
 
-    return (
-        <Layout title='Projects'>
-            <ProjectList projects={projectList} />
-        </Layout>
-    )
-}
-
+  return (
+    <Layout title='Projects'>
+      <ProjectList projects={projectList} />
+    </Layout>
+  );
+};
 
 export default Projects;

@@ -27,7 +27,7 @@ export default function ArticleLayout({
 }) {
   const DynamicDate = dynamic(() => import('../util/dynamicDate'), {
     ssr: false,
-  })
+  });
 
   return (
     <Layout title={meta.title}>
@@ -35,7 +35,7 @@ export default function ArticleLayout({
         <Header id='title'>{meta.title}</Header>
         By: {meta.author}
         <span className='block text-xs text-gray-400'>
-          Created: <DynamicDate timestamp={meta.timestamp}/>
+          Created: <DynamicDate timestamp={meta.timestamp} />
         </span>{' '}
         <span className='block text-xs text-gray-400'>Tags: [</span>
         {meta.tags.map((t, idx) => {

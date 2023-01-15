@@ -8,7 +8,7 @@ export default async function () {
     path.join(process.cwd(), 'pages', 'blog')
   );
 
-  articleFiles = articleFiles.filter((file : string) => file.match(/^.+\.mdx$/));
+  articleFiles = articleFiles.filter((file: string) => file.match(/^.+\.mdx$/));
 
   const postModules = await Promise.all(
     articleFiles.map(async (p) => import(`../pages/blog/${p}`))

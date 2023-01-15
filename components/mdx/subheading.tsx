@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { FaLink } from "react-icons/fa";
+import { ReactNode } from 'react';
+import { FaLink } from 'react-icons/fa';
 
 export default function Subheading({
   id,
@@ -12,9 +12,9 @@ export default function Subheading({
 }) {
   return (
     <h2 id={id} className={`${className} font-semibold mb-2`}>
-      <a className="inline-block text-sm" href={`#${id}`}>
-        <FaLink className="m-1" />
-      </a>{" "}
+      <a className='inline-block text-sm' href={`#${id}`}>
+        <FaLink className='m-1' />
+      </a>{' '}
       {children}
     </h2>
   );

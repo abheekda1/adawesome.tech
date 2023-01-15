@@ -39,7 +39,9 @@ const Blog = ({
     );
   }, [filteredArticles, router]);
 
-  {/* todo: search */}
+  {
+    /* todo: search */
+  }
   return (
     <Layout title={'Blog'}>
       <>

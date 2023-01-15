@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { ReactNode } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ReactNode } from 'react';
 
 export default function Nav() {
   const router = useRouter();
@@ -9,19 +9,19 @@ export default function Nav() {
     <div>
       {(() => {
         const paths: Array<ReactNode> = [
-          <span key="0">
-            <Link href="/">
+          <span key='0'>
+            <Link href='/'>
               <a>~</a>
             </Link>
           </span>,
         ];
-        let tempFull = "/";
-        let tempLocal = "";
+        let tempFull = '/';
+        let tempLocal = '';
         for (let i = 1; i < router.pathname.length; i++) {
           const char = router.pathname[i];
           tempFull += char;
-          if (char === "/" || i === router.pathname.length - 1) {
-            if (char !== "/") tempLocal += char;
+          if (char === '/' || i === router.pathname.length - 1) {
+            if (char !== '/') tempLocal += char;
             paths.push(
               <span key={(i + 1).toString()}>
                 <Link href={tempFull}>
@@ -29,7 +29,7 @@ export default function Nav() {
                 </Link>
               </span>
             );
-            tempLocal = "";
+            tempLocal = '';
             continue;
           }
           tempLocal += char;
