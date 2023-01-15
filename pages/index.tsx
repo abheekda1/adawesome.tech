@@ -29,7 +29,7 @@ const Home = ({
   return (
     <div>
       <Layout title={'Home'}>
-        <div className='prose'>
+        <div className='max-w-none prose'>
           <p>
             I&apos;m Abheek, a passionate developer intent on learning
             everything there is to learn about many interesting
