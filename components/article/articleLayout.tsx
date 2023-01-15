@@ -31,7 +31,7 @@ export default function ArticleLayout({
 
   return (
     <Layout title={meta.title}>
-      <article className={'prose'}>
+      <article className={'prose max-w-none'}>
         <Header id='title'>{meta.title}</Header>
         By: {meta.author}
         <span className='block text-xs text-gray-400'>
