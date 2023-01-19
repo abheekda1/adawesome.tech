@@ -32,11 +32,11 @@ export default function Layout({
   return (
     <>
       <Head>
-        <title>{`${title} | ADAT`}</title>
+        <title>{`${title} ⸬ ADAT`}</title>
 
         {/* metadata */}
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-        <meta property='og:title' content={`${title} | ADAT`} />
+        <meta property='og:title' content={`${title} ⸬ ADAT`} />
         <meta property='og:type' content='website' />
         <meta property='og:url' content='https://adawesome.tech' />
         <meta
