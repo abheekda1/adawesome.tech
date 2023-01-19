@@ -10,9 +10,9 @@ import ProjectList from '../components/project/projectList';
 import getProject from '../util/getProject';
 
 export async function getStaticProps() {
-  let props = {};
-  let articleProps = await getArticles();
-  let projectProps = await getProject();
+  const props = {};
+  const articleProps = await getArticles();
+  const projectProps = await getProject();
   Object.assign(props, articleProps.props, projectProps.props);
   return { props: props };
 }

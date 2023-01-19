@@ -1,11 +1,9 @@
-import Box from '../../components/layout/box';
 import { Metadata } from '../../components/article/articleLayout';
 import Link from 'next/link';
 import getArticles from '../../util/getArticles';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/layout';
-import dynamic from 'next/dynamic';
 import ArticleList from '../../components/article/articleList';
 
 // todo: make single util function
@@ -22,7 +20,7 @@ const Blog = ({
 
   const [articleList, setArticleList] = useState<Array<Metadata>>(articles);
 
-  let filteredArticles = articles;
+  const filteredArticles = articles;
   useEffect(() => {
     setArticleList(
       filteredArticles.filter((a) => {

@@ -1,12 +1,5 @@
 import { ReactNode } from 'react';
-import { MDXProvider } from '@mdx-js/react';
 import Nav from './nav';
-import Header from '../mdx/header';
-import Subheading from '../mdx/subheading';
-import Blockquote from '../mdx/blockquote';
-import DropdownImage from '../mdx/dropdownImage';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 export default function Box({ children }: { children: ReactNode }) {
   return (

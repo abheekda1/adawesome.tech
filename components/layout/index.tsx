@@ -3,10 +3,7 @@ import Box from './box';
 import Particles from './particles';
 import { ReactNode } from 'react';
 
-import { useCallback } from 'react';
-import type { Container, Engine } from 'tsparticles-engine';
 //import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
 
 export default function Layout({
   children,
