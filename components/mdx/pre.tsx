@@ -1,5 +1,5 @@
 import { ReactNode, useRef, useState } from 'react';
-import { FaCopy } from 'react-icons/fa';
+import { FaCopy, FaCheck } from 'react-icons/fa';
 import classNames from 'classnames';
 
 export default function Pre({
@@ -10,6 +10,7 @@ export default function Pre({
   className?: string;
 }) {
   const [isHovered, setHovered] = useState(false);
+  const [justCopied, setJustCopied] = useState(false);
   const codeText = useRef(null);
 
   return (
@@ -23,11 +24,19 @@ export default function Pre({
           className={classNames('absolute top-3 right-2 text-xl', {
             hidden: !isHovered,
           })}
-          onClick={() =>
+          onClick={() => {
             navigator.clipboard.writeText((codeText.current as any)?.innerText)
+            setJustCopied(true);
+            setTimeout(() => {
+              setJustCopied(false);
+            }, 3000);
+          }
           }
         >
-          <FaCopy />
+          {justCopied
+            ? <FaCheck style={{ color: "lightseagreen" }} />
+            : <FaCopy />
+          }
         </button>
         <div ref={codeText}>{children}</div>
       </pre>
