@@ -1,0 +1,226 @@
+export const meta = {
+  title: "Teaching AP Computer Science Lessons with Brainfuck and Java",
+  description: "",
+  author: "Abheek Dhawan",
+  tags: ["programming", "java", "esolangs"],
+  timestamp: 1674181325000,
+};
+
+import ArticleLayout from "../../components/article/articleLayout.tsx";
+
+Recently, I had to make a project where people learn concepts from AP Computer Science by doing--meaning I had to create a sort of template project in Java that could be filled in by someone else to learn past concepts as a review. As brainfuck is already something I'm familiar, I thought there could be nothing better than to write another interpreter, albeit a slightly faster one.
+
+[Source](https://github.com/abheekda1/apcs-semester-final)
+
+## Approach
+As I said in the other article about brainfuck, the spec is along the lines of this:  
+
+`>`: move the pointer to the next cell  
+`<`: move the pointer to the previous cell  
+`+`: increment the data in the current cell  
+`-`: decrement the data in the current cell  
+`.`: output the ASCII character at the current cell  
+`,`: get a single character input and store it in the current cell  
+`[`: run normally unless the current cell is at 0, in which case jump past the matching `]`  
+`]`: go back to the matching `[` if the current cell is not 0  
+
+Unlike last time, I wanted to first make some things more efficient, so I decided to use hash maps to match brackets together instead of iterating every time. This way, if I was on one bracket I could jump to the other easily and I was able to fill the hash maps (one for open to close brackets and one the other way around) once in the beginning.
+
+Filling them looked something like this:
+```java filename="Interpreter.java"
+public class Interpreter {
+...
+  private HashMap<Integer, Integer> openToClose = new HashMap<Integer, Integer>();
+  private HashMap<Integer, Integer> closeToOpen = new HashMap<Integer, Integer>();
+
+  private void fillBracketMaps() {
+      for (int i = 0; i < parser.getSourceStripped().length(); i++) {
+          if (parser.getSourceStripped().charAt(i) == '[') {
+              char closeBracket = '[';
+              int depth = 0;
+              int j = i;
+              while (closeBracket != ']' || depth >= 0) {
+                  j++;
+                  String strippedSource = parser.getSourceStripped();
+                  closeBracket = strippedSource.charAt(j);
+                  if (closeBracket == '[')
+                      depth++;
+                  else if (closeBracket == ']')
+                      depth--;
+              }
+              openToClose.put(i, j);
+              closeToOpen.put(j, i);
+          }
+      }
+  }
+...
+}
+```
+
+Outside of this concept however, I decided to at least try to stay at least somewhat in touch with interpreter/compiler file structures, meaning I have to start with the lexer and the parser.
+
+
+## Implementation
+I decided to jump straight into the parser since the lexer could just run character by character. I first created an enum to keep track of the different commands:
+```java filename="Parser.java"
+public class Parser {
+...
+  // an enum is just a way to have a defined set of possible values
+  public enum Command {
+      POINTER_RIGHT,
+      POINTER_LEFT,
+      INC_CELL,
+      DEC_CELL,
+      OUTPUT,
+      INPUT,
+      OPEN_BRACKET,
+      CLOSE_BRACKET,
+      EOF
+  }
+...
+}
+```
+I then decided to give the class three properties: the source (of course!), the stripped source storing just the commands and nothing extra, and a "pointer" (index) of the current character in the stripped source while iterating through it.
+```java filename="Parser.java"
+private String source = "";
+private String sourceStripped = "";
+private int tokenPointer = 0;
+...
+private void stripSource() {
+    for (char c : source.toCharArray()) {
+        if (new String("><+-.,[]").indexOf(c) != -1)
+            sourceStripped += c;
+    }
+}
+```
+I then made a function called `getNextToken` which takes no parameters and just returns whatever command the current character represents from the enum. Here's what the template looks like for other students following the activity:
+```java filename="Parser.java"
+public Command getNextToken() {
+    // return EOF if it's past the last token:
+
+    // create a ret var of type Command:
+
+    switch (sourceStripped.charAt(tokenPointer)) {
+        case '>':
+            ret = Command.POINTER_RIGHT;
+            break;
+        case '<':
+            ret = Command.POINTER_LEFT;
+            break;
+        case '+':
+            ret = Command.INC_CELL;
+            break;
+        case '-':
+            ret = Command.DEC_CELL;
+            break;
+        case '.':
+            ret = Command.OUTPUT;
+            break;
+        case ',':
+            ret = Command.INPUT;
+            break;
+        case '[':
+            ret = Command.OPEN_BRACKET;
+            break;
+        case ']':
+            ret = Command.CLOSE_BRACKET;
+            break;
+    }
+
+    // increment the tokenPointer to move to the next token when the function is
+    // called again
+
+    return ret;
+}
+```
+That's the end of the functions for the parser, now it's time for the interpreter.
+
+The `Interpreter` class had the memory cells (just an array of 30,000 `int`s), a pointer (current index in cells), a parser object to... parse, and the hash maps mentioned above.
+
+It also had just one public function `run` which looped through all commands using `getNextCommand` from the parser until it hit the `EOF`. For each token, it ran the `handleCommand` function which took in a command for the current command and the index of said command since `getNextToken` increments the index and I didn't want to use `parser.getTokenIdx() - 1` for clarity. Here's what the template functions look like:
+```java filename="Interpreter.java"
+// main loop function
+public void run() {
+    // write code here to loop through all parser tokens until EOF
+    // calling the `handleCommand` function to determine what to do depending on
+    // the token type
+
+}
+
+// this function takes the command and the current character index in case
+// you would like to use it
+private void handleCommand(Parser.Command command, int idx) {
+    switch (command) {
+        case POINTER_RIGHT:
+            // code goes here
+            break;
+        case POINTER_LEFT:
+            // code goes here
+            break;
+        case INC_CELL:
+            // code goes here
+            break;
+        case DEC_CELL:
+            // code goes here
+            break;
+        case INPUT:
+            // code goes here
+            break;
+        case OUTPUT:
+            // code goes here
+            break;
+        case OPEN_BRACKET:
+            // code goes here
+            break;
+        case CLOSE_BRACKET:
+            // code goes here
+            break;
+        case EOF: // never happens
+    }
+}
+```
+
+From there, one only has to create a `main` function and initialize an interpreter with some source, and then use the `run` method. Example:
+```java filename="App.java"
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class App {
+    public static void main(String[] args) throws IOException {
+        Interpreter interpreter = new Interpreter(Files.readString(Paths.get("input")));
+        interpreter.run();
+    }
+}
+
+```
+
+I also created tests along the way so students could easily check their progress with VS Code's integrated test runner. Here's an example of one of those tests:
+```java filename="ParserTest.java"
+public class ParserTest {
+...
+  @Test
+  public void strip() {
+      Parser parser = new Parser(
+              "1 +++++ +++               Set Cell #0 to 8\n" +
+                      "2 [\n" +
+                      "3     >++++               Add 4 to Cell #1; this will always set Cell #1 to 4\n" +
+                      "4     [                   as the cell will be cleared by the loop\n" +
+                      "5         >++             Add 4*2 to Cell #2\n" +
+                      "6         >+++            Add 4*3 to Cell #3\n" +
+                      "7         >+++            Add 4*3 to Cell #4\n" +
+                      "8         >+              Add 4 to Cell #5\n");
+      assertTrue(parser.getSourceStripped().equals("++++++++[>++++[>++>+++>+++>+"));
+  }
+...
+}
+```
+
+Finally, I gave students instructions in the README and added a [solution branch](https://github.com/abheekda1/apcs-semester-final/tree/solution) with a possible filled out version of the code.
+
+## Conclusion
+Overall, it was a fun experience to have a backwards perspective of learning AP CS by creating a lesson for other students and I rather enjoyed getting to explore things like Java tests and hash maps further.
+
+export default ({ children }) => {
+  return <ArticleLayout meta={meta}>{children}</ArticleLayout>;
+};
