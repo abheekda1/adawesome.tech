@@ -50,6 +50,7 @@ export default function ArticleLayout({
           );
         })}
         <span className={'block text-xs text-gray-400'}>]</span>
+        <p>{meta.description}</p>
         <MDXProvider
           components={{
             h1: (props) => <Header {...props} />,

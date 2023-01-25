@@ -15,11 +15,14 @@ export default function ProjectList({
     <div>
       {projects.slice(0, limit).map((project, idx) => {
         return (
-          <ProjectListElement
-            project={project}
-            descLimit={descLimit}
-            key={idx}
-          />
+          <div>
+            <ProjectListElement
+              project={project}
+              descLimit={descLimit}
+              key={idx}
+            />
+            <hr className='h-px my-8 bg-gray-200 border-0 dark:bg-gray-700' />
+          </div>
         );
       })}
       {projects.length > (limit || Infinity) && (
