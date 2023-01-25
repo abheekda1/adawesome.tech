@@ -15,11 +15,10 @@ export default function ArticleList({
     <div>
       {articles.slice(0, limit).map((article, idx) => {
         return (
-          <div>
+          <div key={idx}>
             <ArticleListElement
               article={article}
               descLimit={descLimit}
-              key={idx}
             />
             <hr className='h-px my-8 bg-gray-200 border-0 dark:bg-gray-700' />
           </div>
