@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       boxShadow: {
         'lg': '1.5ch 1.5ch #000',
+        'inner': 'inset 1.5px 1px #444'
       },
     },
   },
