@@ -57,6 +57,12 @@ const projects: Metadata[] = [
     description: 'Pushing the limits of Git commits',
     link: 'https://github.com/abheekda1/lotsa-commits',
   },
+  {
+    name: 'The Witcher 3 Achievemnt StatTrak',
+    description:
+      'Simple Witcher 3 mod that adds a book to list achievement progress',
+    link: 'https://github.com/abheekda1/tw3-modAchievementStatTrak',
+  },
 ];
 
 export default async function () {
