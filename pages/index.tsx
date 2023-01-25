@@ -69,7 +69,7 @@ const Home = ({
               </Link>
             </Header>
             <Subheading id={'latest-articles'}>Latest articles:</Subheading>
-            <ArticleList articles={articles} limit={3} />
+            <ArticleList articles={articles} limit={3} descLimit={200} />
           </div>
           <div className={'not-prose mt-5 mb-5'}>
             <Header id={'projects'}>
