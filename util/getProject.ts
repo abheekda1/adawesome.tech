@@ -46,6 +46,17 @@ const projects: Metadata[] = [
       'A simple brainfuck interpreter in x64 NASM to learn more about Assembly and its fundamentals',
     link: 'https://github.com/abheekda1/brainf-interpreter',
   },
+  {
+    name: 'Curve Fitting',
+    description:
+      'A WIP library to fit many different types of functions, such as polynomials, logarithms, and exponentials',
+    link: 'https://github.com/abheekda1/curve-fitting',
+  },
+  {
+    name: 'Lotsa Commits',
+    description: 'Pushing the limits of Git commits',
+    link: 'https://github.com/abheekda1/lotsa-commits',
+  },
 ];
 
 export default async function () {
