@@ -25,18 +25,18 @@ export default function Pre({
             hidden: !isHovered,
           })}
           onClick={() => {
-            navigator.clipboard.writeText((codeText.current as any)?.innerText)
+            navigator.clipboard.writeText((codeText.current as any)?.innerText);
             setJustCopied(true);
             setTimeout(() => {
               setJustCopied(false);
             }, 3000);
-          }
-          }
+          }}
         >
-          {justCopied
-            ? <FaCheck style={{ color: "lightseagreen" }} />
-            : <FaCopy />
-          }
+          {justCopied ? (
+            <FaCheck style={{ color: 'lightseagreen' }} />
+          ) : (
+            <FaCopy />
+          )}
         </button>
         <div ref={codeText}>{children}</div>
       </pre>
