@@ -15,11 +15,10 @@ export default function ProjectList({
     <div>
       {projects.slice(0, limit).map((project, idx) => {
         return (
-          <div>
+          <div key={idx}>
             <ProjectListElement
               project={project}
               descLimit={descLimit}
-              key={idx}
             />
             <hr className='h-px my-8 bg-gray-200 border-0 dark:bg-gray-700' />
           </div>
