@@ -8,6 +8,7 @@ import Layout from '../components/layout';
 import ArticleList from '../components/article/articleList';
 import ProjectList from '../components/project/projectList';
 import getProject from '../util/getProject';
+import { FaGithub, FaYoutube } from 'react-icons/fa';
 
 export async function getStaticProps() {
   const props = {};
@@ -43,24 +44,24 @@ const Home = ({
             follow along or learn something.
           </p>
 
-          <p>
-            <span>
+          <div className={'flex justify-center items-center'}>
+            <div className={'flex-row items-center mx-2'}>
               <Link href='https://youtube.com/AbheeksTechAdventures'>
-                <a>YouTube</a>
+                <a className={'flex items-center'}>
+                  <FaYoutube className={'mx-1'} />
+                  <span>YouTube</span>
+                </a>
               </Link>
-            </span>{' '}
-            <span>
+            </div>
+            <div className={'flex-row items-center mx-2'}>
               <Link href='https://github.com/abheekda1'>
-                <a>GitHub</a>
+                <a className={'flex items-center'}>
+                  <FaGithub className={'mx-1'} />
+                  <span>GitHub</span>
+                </a>
               </Link>
-            </span>
-          </p>
-
-          {/*<DropdownImage
-            src='https://fllstl.codes/_next/image?url=%2Fimg%2Fteam%2Fabheek-dhawan.png&w=1920&q=75'
-            title='This is me!'
-            alt={'Picture of Abheek'}
-          />*/}
+            </div>
+          </div>
 
           <div className={'not-prose mt-5 mb-5'}>
             <Header id={'blog'}>
