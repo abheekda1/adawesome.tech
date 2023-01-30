@@ -26,7 +26,7 @@ export default function ProjectListElement({
                 className={`flex-none w-4 h-4 shadow-inner rounded-sm mr-1`}
                 style={{ backgroundColor: languageInfo.color }}
               ></span>
-              <span className={'flex-auto h-6 align-baseline font-semibold'}>
+              <span className={'flex-auto font-semibold'}>
                 {languageInfo.name}
               </span>
             </div>
