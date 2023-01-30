@@ -11,7 +11,7 @@ export default function Subheading({
   className?: string;
 }) {
   return (
-    <h2 id={id} className={`${className} font-semibold mb-2`}>
+    <h2 id={id} className={`${className} flex items-center font-semibold mb-2`}>
       <a className='inline-block text-sm' href={`#${id}`}>
         <FaLink className='m-1' />
       </a>{' '}
