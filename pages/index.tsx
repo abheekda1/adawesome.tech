@@ -47,7 +47,7 @@ const Home = ({
             <br /><br />
             I am also delving into the world of astrophysics. I enjoy learning about
             the universe from a theoretical standpoint as well as a philosophical one,
-            both learning what makes it up and why I'm here to learn that. The universe
+            both learning what makes it up and why I&apos;m here to learn that. The universe
             is fascinating as we are not just observing it but rather a part of it, as
             Carl Sagan once said. I hope to pursue astrophysics in my future by
             utilizing computational methods to learn more about the history of the cosmos,
