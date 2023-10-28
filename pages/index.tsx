@@ -48,7 +48,7 @@ const Home = ({
           <div className={'flex justify-center items-center mb-2'}>
             <GrDocumentText className={'ml-1'} />
             <div className={'flex-row items-center mx-1'}>
-              <Link href='/docs/abheekd_resume.pdf'>
+              <Link href='/docs/resume.pdf'>
                 <a className={'pl-1 pr-2 flex items-center'}>
                   <span>Resume</span>
                 </a>
