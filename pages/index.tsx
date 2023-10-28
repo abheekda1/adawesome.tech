@@ -8,7 +8,8 @@ import Layout from '../components/layout';
 import ArticleList from '../components/article/articleList';
 import ProjectList from '../components/project/projectList';
 import getProject from '../util/getProject';
-import { FaGithub, FaYoutube } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { GrDocumentText } from 'react-icons/gr';
 
 export async function getStaticProps() {
   const props = {};
@@ -32,8 +33,8 @@ const Home = ({
       <Layout title={'Home'}>
         <div className='max-w-none prose'>
           <p>
-            I&apos;m Abheek, a passionate developer intent on learning
-            everything there is to learn about many interesting
+            I&apos;m Abheek, a passionate developer and self-proclaimed astrophysicist 
+            intent on learning everything there is to learn about many interesting
             technology-related topics. These include, but are not limited to:
             programming languages such as Go, C++, and TypeScript; the workings
             of OSes on a software level as well as the hardware counterpart; and
@@ -44,20 +45,38 @@ const Home = ({
             follow along or learn something.
           </p>
 
+          <div className={'flex justify-center items-center mb-2'}>
+            <GrDocumentText className={'ml-1'} />
+            <div className={'flex-row items-center mx-1'}>
+              <Link href='/docs/abheekd_resume.pdf'>
+                <a className={'pl-1 pr-2 flex items-center'}>
+                  <span>Resume</span>
+                </a>
+              </Link>
+            </div>
+          </div>
           <div className={'flex justify-center items-center'}>
-            <div className={'flex-row items-center mx-2'}>
+            <div className={'flex-row items-center mx-1'}>
               <Link href='https://youtube.com/AbheeksTechAdventures'>
-                <a className={'flex items-center'}>
-                  <FaYoutube className={'mx-1'} />
+                <a className={'px-2 flex items-center'}>
+                  <FaYoutube className={'mr-1'} />
                   <span>YouTube</span>
                 </a>
               </Link>
             </div>
-            <div className={'flex-row items-center mx-2'}>
+            <div className={'flex-row items-center mx-1'}>
               <Link href='https://github.com/abheekda1'>
-                <a className={'flex items-center'}>
-                  <FaGithub className={'mx-1'} />
+                <a className={'px-2 flex items-center'}>
+                  <FaGithub className={'mr-1'} />
                   <span>GitHub</span>
+                </a>
+              </Link>
+            </div>
+            <div className={'flex-row items-center mx-1'}>
+              <Link href='https://linkedin.com/in/abheek-dhawan'>
+                <a className={'px-2 flex items-center'}>
+                  <FaLinkedin className={'mr-1'} />
+                  <span>LinkedIn</span>
                 </a>
               </Link>
             </div>
