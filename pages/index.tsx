@@ -33,7 +33,7 @@ const Home = ({
       <Layout title={'Home'}>
         <div className='max-w-none prose'>
           <p>
-            Hello everyone! I&apos;m Abheek, a passionate developer and self-proclaimed astrophysicist.
+            Hey there! I&apos;m Abheek, a passionate developer and self-proclaimed astrophysicist.
             <br /><br />
             I am currently intent on learning everything there is to learn about many interesting
             technology-related topics. These include, but are not limited to:
@@ -42,16 +42,16 @@ const Home = ({
             finally the inner workings of different software, games, and other
             media and reverse engineering them. In addition, I run a YouTube
             channel where I post tech videos. I hope this website will serve as
-            a hub for my many different endeavors and will allow for others to
+            a hub for my many different endeavors and will allow others to
             follow along or learn something.
             <br /><br />
             I am also delving into the world of astrophysics. I enjoy learning about
             the universe from a theoretical standpoint as well as a philosophical one,
             both learning what makes it up and why I&apos;m here to learn that. The universe
-            is fascinating as we are not just observing it but rather a part of it, as
-            Carl Sagan once said. I hope to pursue astrophysics in my future by
+            is particularly fascinating, as Carl Sagan once put it, because we are not just
+            observing it but rather a part of it. I hope to pursue astrophysics in the future by
             utilizing computational methods to learn more about the history of the cosmos,
-            how it developed, and where it may lead.
+            how it developed, and where it may lead us.
           </p>
 
           <div className={'flex justify-center items-center mb-2'}>
