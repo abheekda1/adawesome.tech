@@ -34,7 +34,7 @@ const Home = ({
         <div className='max-w-none prose'>
           <p>
             Hey there! I&apos;m Abheek, a passionate developer and self-proclaimed astrophysicist.
-          </p><br />
+          </p>
           <div className={'flex justify-center items-center mb-2'}>
             <GrDocumentText className={'ml-1'} />
             <div className={'flex-row items-center mx-1'}>
