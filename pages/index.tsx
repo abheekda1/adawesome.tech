@@ -33,7 +33,7 @@ const Home = ({
       <Layout title={'Home'}>
         <div className='max-w-none prose'>
           <p>
-            Hey there! I&apos;m Abheek, a passionate developer and self-proclaimed astrophysicist.
+            Hey there! I&apos;m Abheek, a self-proclaimed developer and astrophysicist.
           </p>
           <div className={'flex justify-center items-center mb-2'}>
             <GrDocumentText className={'ml-1'} />
