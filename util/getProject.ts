@@ -23,6 +23,7 @@ export enum Language {
   GO,
   WITCHER_SCRIPT,
   CSHARP,
+  PYTHON,
 }
 
 export type LanguageInfo = {
@@ -57,18 +58,39 @@ export function getLanguageInfo(language: Language): LanguageInfo {
     case Language.CSHARP:
       ret = { name: 'C#', color: '#178600' };
       break;
+    case Language.PYTHON:
+      ret = { name: 'Python', color: '#3572A5' };
+      break;
   }
   return ret;
 }
 
 const projects: Metadata[] = [
   {
-    name: 'AwesomeSciBo',
+    name: 'CourseTable',
     description:
-      'Open-source Discord bot that aims to aid up-and-coming Scibowlers with randomly generated (non-stock) rounds and training. It has many features, including subject-targeted training, a cross-server leaderboard, and a plethora of slash commands!',
+      "Implemented full progressive web app (PWA) support, including offline caching and install prompts, for Yale's most popular unofficial course browsing platform, used by over 95% of students.",
     used: {
       inOrBy: InOrBy.BY,
-      what: ['over 1600 people in over 400 servers'],
+      what: ['over 95% of Yale students'],
+    },
+    link: 'https://github.com/coursetable/coursetable',
+    languages: [Language.TYPESCRIPT],
+  },
+  {
+    name: 'Sonara',
+    description:
+      'Automated transcript classification and summarization system built on Deepgram streaming and HuggingFace zero-shot models. Runner-up at the NYC ASA AI4Purpose Hackathon (2025).',
+    link: 'https://github.com/abheekda1/sonara',
+    languages: [Language.PYTHON],
+  },
+  {
+    name: 'AwesomeSciBo',
+    description:
+      'The most popular Science Bowl training Discord bot (over 2,000 peak users), with subject-targeted rounds, randomly generated (non-stock) questions, and a live, competitive cross-server leaderboard.',
+    used: {
+      inOrBy: InOrBy.BY,
+      what: ['over 2,000 peak users'],
     },
     link: 'https://github.com/abheekda1/AwesomeSciBo',
     languages: [Language.TYPESCRIPT, Language.JAVASCRIPT],
@@ -76,7 +98,7 @@ const projects: Metadata[] = [
   {
     name: 'Wwise Audio Tools',
     description:
-      "A collection of tools to manipulate Wwise's elusive WEM file format and its accomplices",
+      'C++ toolset for reverse-engineering and decoding Wwise SoundBank and WEM files, letting mod developers inspect and extract game audio assets.',
     used: {
       inOrBy: InOrBy.IN,
       what: ['The WolvenKit Project'],
@@ -87,34 +109,21 @@ const projects: Metadata[] = [
   {
     name: 'Raycasting Engine',
     description:
-      'Work-in-progress raycasting engine for an AP Computer Science individual project',
+      'A 3D raycasting engine in Java that simulates early first-person rendering and collision logic, built to explore computer graphics fundamentals.',
     link: 'https://github.com/abheekda1/raycaster',
     languages: [Language.JAVA],
   },
   {
     name: 'Brainfuck Interpreter',
     description:
-      'A simple brainfuck interpreter in x64 NASM to learn more about Assembly and its fundamentals',
+      'A brainfuck interpreter written in x64 NASM to learn the fundamentals of Assembly.',
     link: 'https://github.com/abheekda1/brainf-interpreter',
     languages: [Language.ASSEMBLY],
   },
   {
-    name: 'Curve Fitting',
-    description:
-      'A WIP library to fit many different types of functions, such as polynomials, logarithms, and exponentials',
-    link: 'https://github.com/abheekda1/curve-fitting',
-    languages: [Language.CPP],
-  },
-  {
-    name: 'Lotsa Commits',
-    description: 'Pushing the limits of Git commits',
-    link: 'https://github.com/abheekda1/lotsa-commits',
-    languages: [Language.GO],
-  },
-  {
     name: 'The Witcher 3 Achievement StatTrak',
     description:
-      'Simple Witcher 3 mod that adds a book to list achievement progress',
+      'A Witcher 3 mod that adds an in-game book listing achievement progress, published as a verified Nexus Mods author.',
     link: 'https://github.com/abheekda1/tw3-modAchievementStatTrak',
     languages: [Language.WITCHER_SCRIPT],
   },

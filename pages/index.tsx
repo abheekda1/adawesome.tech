@@ -8,7 +8,9 @@ import Layout from '../components/layout';
 import ArticleList from '../components/article/articleList';
 import ProjectList from '../components/project/projectList';
 import getProject from '../util/getProject';
-import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import experience from '../util/getExperience';
+import ExperienceList from '../components/experience/experienceList';
+import { FaEnvelope, FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { GrDocumentText } from 'react-icons/gr';
 
 export async function getStaticProps() {
@@ -33,7 +35,8 @@ const Home = ({
       <Layout title={'Home'}>
         <div className='max-w-none prose'>
           <p>
-            Hey there! I&apos;m Abheek, a self-proclaimed developer and astrophysicist.
+            Hey there! I&apos;m Abheek, a Computer Science &amp; Astrophysics
+            student at Yale.
           </p>
           <div className={'flex justify-center items-center mb-2'}>
             <GrDocumentText className={'ml-1'} />
@@ -45,7 +48,7 @@ const Home = ({
               </Link>
             </div>
           </div>
-          <div className={'flex justify-center items-center'}>
+          <div className={'flex flex-wrap justify-center items-center gap-y-1'}>
             <div className={'flex-row items-center mx-1'}>
               <Link href='https://youtube.com/AbheeksTechAdventures'>
                 <a className={'px-2 flex items-center'}>
@@ -70,27 +73,43 @@ const Home = ({
                 </a>
               </Link>
             </div>
+            <div className={'flex-row items-center mx-1'}>
+              <a
+                href='mailto:abheek.dhawan@yale.edu'
+                className={'px-2 flex items-center'}
+              >
+                <FaEnvelope className={'mr-1'} />
+                <span>Email</span>
+              </a>
+            </div>
           </div>
           <p>
-            I am currently intent on learning everything there is to learn about many interesting
-            technology-related topics. These include, but are not limited to:
-            programming languages such as Go, C++, and TypeScript; the workings
-            of OSes on a software level as well as the hardware counterpart; and
-            finally the inner workings of different software, games, and other
-            media and reverse engineering them. In addition, I run a YouTube
-            channel where I post tech videos. I hope this website will serve as
-            a hub for my many different endeavors and will allow others to
-            follow along or learn something.
-            <br /><br />
-            I am also delving into the world of astrophysics. I enjoy learning about
-            the universe from a theoretical standpoint as well as a philosophical one,
-            both learning what makes it up and why I&apos;m here to learn that. The universe
-            is particularly fascinating, as Carl Sagan once put it, because we are not just
-            observing it but rather a part of it. I hope to pursue astrophysics in the future by
-            utilizing computational methods to learn more about the history of the cosmos,
-            how it developed, and where it may lead us.
+            I like building software that people actually use, from tools for
+            my fellow students to reverse-engineering game file formats to
+            interactive visualizations that make tricky physics concepts click.
+            Most recently, I worked as a research assistant at the Yale Quantum
+            Institute, building visualizations to teach quantum computing.
+            <br />
+            <br />
+            On the astrophysics side, I&apos;m interested in using computational
+            methods to learn about the history of the cosmos: how it formed, how
+            it developed, and where it may lead. As Carl Sagan put it, we
+            aren&apos;t just observing the universe, we&apos;re a part of it, and
+            that&apos;s a big part of why I find it so fascinating.
           </p>
 
+          <div className={'not-prose mt-5 mb-5'}>
+            <Header id={'experience'}>Experience</Header>
+            <ExperienceList experience={experience} />
+          </div>
+          <div className={'not-prose mt-5 mb-5'}>
+            <Header id={'projects'}>
+              <Link href={'/projects'}>
+                <a className={'first-letter:text-current'}>Projects</a>
+              </Link>
+            </Header>
+            <ProjectList projects={projects} limit={3} descLimit={200} />
+          </div>
           <div className={'not-prose mt-5 mb-5'}>
             <Header id={'blog'}>
               <Link href={'/blog'}>
@@ -99,14 +118,6 @@ const Home = ({
             </Header>
             <Subheading id={'latest-articles'}>Latest articles:</Subheading>
             <ArticleList articles={articles} limit={3} descLimit={200} />
-          </div>
-          <div className={'not-prose mt-5 mb-5'}>
-            <Header id={'projects'}>
-              <Link href={'/projects'}>
-                <a className={'first-letter:text-current'}>Projects</a>
-              </Link>
-            </Header>
-            <ProjectList projects={projects} limit={3} descLimit={100} />
           </div>
         </div>
       </Layout>
