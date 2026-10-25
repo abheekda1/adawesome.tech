@@ -2,6 +2,10 @@ import Link from 'next/link';
 import { Metadata } from './articleLayout';
 import dynamic from 'next/dynamic';
 
+const DynamicDate = dynamic(() => import('../util/dynamicDate'), {
+  ssr: false,
+});
+
 export default function ArticleListElement({
   article,
   descLimit,
@@ -9,10 +13,6 @@ export default function ArticleListElement({
   article: Metadata;
   descLimit?: number;
 }) {
-  const DynamicDate = dynamic(() => import('../util/dynamicDate'), {
-    ssr: false,
-  });
-
   return (
     <div className={'block mb-3'}>
       <div className={'text-gray-400 text-[0.6rem] select-none'}>
@@ -24,7 +24,7 @@ export default function ArticleListElement({
         {']'}
       </p>
       <Link href={`/blog/${article.slug || ''}`}>
-        <a>{article.title}</a>
+        {article.title}
       </Link>
       <p className={'text-gray-600 text-xs'}>
         {descLimit

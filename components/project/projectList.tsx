@@ -30,8 +30,8 @@ export default function ProjectList({
             'block text-center p-1 my-2 border-solid border-2 border-black'
           }
         >
-          <Link href='/projects'>
-            <a className={'underline'}>View more projects</a>
+          <Link href='/projects' className={'underline'}>
+            View more projects
           </Link>
         </div>
       )}

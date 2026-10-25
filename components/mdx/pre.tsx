@@ -11,7 +11,7 @@ export default function Pre({
 }) {
   const [isHovered, setHovered] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
-  const codeText = useRef(null);
+  const codeText = useRef<HTMLDivElement>(null);
 
   return (
     <div
@@ -25,7 +25,7 @@ export default function Pre({
             hidden: !isHovered,
           })}
           onClick={() => {
-            navigator.clipboard.writeText((codeText.current as any)?.innerText);
+            navigator.clipboard.writeText(codeText.current?.innerText ?? '');
             setJustCopied(true);
             setTimeout(() => {
               setJustCopied(false);

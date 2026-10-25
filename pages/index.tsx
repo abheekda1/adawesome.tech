@@ -24,11 +24,9 @@ export async function getStaticProps() {
 const Home = ({
   articles,
   projects,
-  tags,
 }: {
   articles: Array<ArticleMetadata>;
   projects: Array<ProjectMetadata>;
-  tags: Set<string>;
 }) => {
   return (
     <div>
@@ -41,36 +39,40 @@ const Home = ({
           <div className={'flex justify-center items-center mb-2'}>
             <GrDocumentText className={'ml-1'} />
             <div className={'flex-row items-center mx-1'}>
-              <Link href='/docs/resume.pdf'>
-                <a className={'pl-1 pr-2 flex items-center'}>
-                  <span>Resume</span>
-                </a>
+              <Link href='/docs/resume.pdf' className={'pl-1 pr-2 flex items-center'}>
+
+                <span>Resume</span>
+
               </Link>
             </div>
           </div>
           <div className={'flex flex-wrap justify-center items-center gap-y-1'}>
             <div className={'flex-row items-center mx-1'}>
-              <Link href='https://youtube.com/AbheeksTechAdventures'>
-                <a className={'px-2 flex items-center'}>
-                  <FaYoutube className={'mr-1'} />
-                  <span>YouTube</span>
-                </a>
+              <Link
+                href='https://youtube.com/AbheeksTechAdventures'
+                className={'px-2 flex items-center'}>
+
+                <FaYoutube className={'mr-1'} />
+                <span>YouTube</span>
+
               </Link>
             </div>
             <div className={'flex-row items-center mx-1'}>
-              <Link href='https://github.com/abheekda1'>
-                <a className={'px-2 flex items-center'}>
-                  <FaGithub className={'mr-1'} />
-                  <span>GitHub</span>
-                </a>
+              <Link href='https://github.com/abheekda1' className={'px-2 flex items-center'}>
+
+                <FaGithub className={'mr-1'} />
+                <span>GitHub</span>
+
               </Link>
             </div>
             <div className={'flex-row items-center mx-1'}>
-              <Link href='https://linkedin.com/in/abheek-dhawan'>
-                <a className={'px-2 flex items-center'}>
-                  <FaLinkedin className={'mr-1'} />
-                  <span>LinkedIn</span>
-                </a>
+              <Link
+                href='https://linkedin.com/in/abheek-dhawan'
+                className={'px-2 flex items-center'}>
+
+                <FaLinkedin className={'mr-1'} />
+                <span>LinkedIn</span>
+
               </Link>
             </div>
             <div className={'flex-row items-center mx-1'}>
@@ -104,16 +106,16 @@ const Home = ({
           </div>
           <div className={'not-prose mt-5 mb-5'}>
             <Header id={'projects'}>
-              <Link href={'/projects'}>
-                <a className={'first-letter:text-current'}>Projects</a>
+              <Link href={'/projects'} className={'first-letter:text-current'}>
+                Projects
               </Link>
             </Header>
             <ProjectList projects={projects} limit={3} descLimit={200} />
           </div>
           <div className={'not-prose mt-5 mb-5'}>
             <Header id={'blog'}>
-              <Link href={'/blog'}>
-                <a className={'first-letter:text-current'}>Blog</a>
+              <Link href={'/blog'} className={'first-letter:text-current'}>
+                Blog
               </Link>
             </Header>
             <Subheading id={'latest-articles'}>Latest articles:</Subheading>

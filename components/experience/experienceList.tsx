@@ -13,8 +13,8 @@ export default function ExperienceList({
           <div key={idx}>
             <div className={'block mb-5'}>
               {item.link ? (
-                <Link href={item.link}>
-                  <a className='text-lg'>{item.organization}</a>
+                <Link href={item.link} className='text-lg'>
+                  {item.organization}
                 </Link>
               ) : (
                 <span className='text-lg'>{item.organization}</span>

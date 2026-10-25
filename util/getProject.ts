@@ -129,7 +129,7 @@ const projects: Metadata[] = [
   },
 ];
 
-export default async function () {
+export default async function getProject() {
   return {
     props: {
       projects: projects,
