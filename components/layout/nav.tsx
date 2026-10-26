@@ -11,7 +11,7 @@ export default function Nav() {
         const paths: Array<ReactNode> = [
           <span key='0'>
             <Link href='/'>
-              <a>~</a>
+              ~
             </Link>
           </span>,
         ];
@@ -25,7 +25,7 @@ export default function Nav() {
             paths.push(
               <span key={(i + 1).toString()}>
                 <Link href={tempFull}>
-                  <a>{tempLocal}</a>
+                  {tempLocal}
                 </Link>
               </span>
             );

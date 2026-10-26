@@ -1,0 +1,67 @@
+export const meta = {
+  title: "Veering Off Track: what a selection cut does to the star-forming main sequence",
+  description: "This summer I was in Santiago as a Tetelman Fellow at the Universidad de Chile, fitting one of the most basic relations in galaxy evolution to a simulation of the early universe. The fit gave a striking answer, and most of it turned out to be the catalogue talking rather than the galaxies.",
+  author: "Abheek Dhawan",
+  tags: ["astrophysics", "research", "statistics", "python"],
+  timestamp: 1793016000000,
+};
+
+import ArticleLayout from "../../components/article/articleLayout.tsx";
+
+## The question
+
+Galaxies that are still forming stars follow a surprisingly tight relation between how massive they are and how fast they're making new stars. Astronomers call it the **star-forming main sequence** (SFMS), and its shape tells you a lot. The slope says how star formation scales with mass, the way it shifts with redshift says how that changes over cosmic time, and the scatter around it hints at how "bursty" star formation is.
+
+I wanted to measure all three in SPHINX20, a radiation-hydrodynamics simulation of the early universe (redshifts 4.6 to 10, within roughly the first 1.3 billion years after the Big Bang), and compare them with two recent studies: one from the THESAN-ZOOM simulations and one from JADES observations with JWST.
+
+I wrote the relation in terms of the specific star formation rate (sSFR, star formation rate divided by stellar mass):
+
+```
+sSFR(M, z) = s_b × (M / 10¹⁰ M☉)^β × (1 + z)^μ
+```
+
+Here β is the mass slope and μ is the redshift exponent. If β = 0, star formation is simply proportional to mass.
+
+## The first answer was too good
+
+A straightforward least-squares fit across all 1,380 catalogue entries gave **β = −0.505**. That's a steep trend: low-mass galaxies forming stars far faster for their size than massive ones.
+
+That's not impossible, but something bothered me. The public SPHINX20 catalogue only includes galaxies with a star formation rate (averaged over 10 Myr) of at least 0.3 M☉/yr. That's a flat cut on star formation rate. But I'm fitting *specific* star formation rate, and dividing by mass turns that flat cut into a diagonal line:
+
+![The sSFR–mass plane for SPHINX20, coloured by redshift, with the catalogue's selection floor as a dashed line](/img/blog/veering-off-track/selection-floor.webp "The selection floor")
+
+At 10⁷ M☉, a galaxy needs an sSFR of 30 per Gyr just to make it into the catalogue. At 10¹⁰ M☉ it only needs 0.03. So the only low-mass galaxies we ever see are the ones caught in a burst. In the plot above, the low-mass end hugs the dashed line almost exactly: about 47% of galaxies at 10⁶–10⁷ M☉ sit within 0.1 dex of the floor, compared with just 1% at 10⁹–10⁹·⁵ M☉.
+
+In other words, a lot of that steep slope might just be the catalogue's selection cut drawing a line for me.
+
+## Two ways to deal with it
+
+**Option 1: throw away the affected galaxies.** If you only fit galaxies above 10⁹ M☉, where the floor is well below the population, the slope drops to **β = −0.103**. The catch is that this keeps only 141 of the 1,380 entries, and loses the z = 9 and z = 10 snapshots entirely.
+
+**Option 2: model the cut.** Instead of pretending the missing galaxies don't exist, I assumed log sSFR is normally distributed around the relation at each mass and redshift, and that we only get to see the part of that distribution above the floor. That's a truncated Gaussian, and the likelihood just renormalizes each galaxy by the probability it would have made the cut in the first place. Maximizing it gives **β = −0.087**, while keeping all 1,380 entries.
+
+The fact that these two approaches land in nearly the same place is the most reassuring result of the project. Here's how the fitted slope moves as I raise the mass cut:
+
+![Mass slope, redshift exponent, and sample size as the lower mass cut is raised, for least squares and the truncated fit](/img/blog/veering-off-track/mass-cut-ladder.webp "Sensitivity to the mass cut")
+
+Least squares (black) swings around a lot as the cut changes. The truncated fit (red) changes much less, and the two meet at high mass, which is exactly what you'd expect if the difference between them is mostly the selection floor.
+
+## What didn't go away
+
+Correcting for selection didn't make everything agree with the literature.
+
+- **Redshift evolution:** the corrected exponent rose from μ = 0.94 to 1.82, but that's still below the 2.30 and 2.64 from the comparison studies. I don't have uncertainties on these yet, so I can't call it a real tension, but it's the most interesting loose end.
+- **Scatter:** the inferred scatter went up from 0.30 to 0.40 dex, which makes sense, since cutting off the bottom of a distribution makes it look narrower than it is.
+- **Timescales:** star formation averaged over 100 Myr gives a narrower relation (about 0.2 dex) than over 10 Myr. Longer windows smooth out short bursts, so this fits the picture of bursty star formation in early galaxies, similar to what the JADES study found.
+
+## What I took away from it
+
+The biggest lesson wasn't about galaxies at all. A fit can give you a clean, confident number that's mostly describing how the sample was built. The fix here wasn't fancy: write down what the selection does, and put it in the likelihood instead of throwing data away.
+
+There's more to do: proper uncertainties, comparisons over matched mass and redshift ranges, and testing the method on mock catalogues where I know the right answer. But I'm happy with where it ended up for one summer.
+
+Huge thanks to the Tetelman Fellowship for making the summer possible, and to [ADVISOR NAME] and everyone at the Universidad de Chile who helped along the way.
+
+export default ({ children }) => {
+  return <ArticleLayout meta={meta}>{children}</ArticleLayout>;
+};

@@ -1,26 +1,18 @@
-import rehypePrism from '@mapbox/rehype-prism';
-import nextMDX from '@next/mdx';
-import rehypeImgSize from 'rehype-img-size';
-import rehypeSlug from 'rehype-slug';
+import createMDX from '@next/mdx';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  images: {
-    domains: ['localhost'],
-  }
-}
+};
 
-const withMDX = nextMDX({
+const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
+    // Plugins are referenced by name so they work with Turbopack.
     remarkPlugins: [],
-    rehypePlugins: [rehypeSlug, rehypePrism, rehypeImgSize],
-    providerImportSource: '@mdx-js/react',
+    rehypePlugins: [['rehype-slug'], ['@mapbox/rehype-prism']],
   },
-})
+});
 
 export default withMDX(nextConfig);
-

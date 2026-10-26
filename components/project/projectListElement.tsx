@@ -14,8 +14,8 @@ export default function ProjectListElement({
                 <DynamicDate timestamp={article.timestamp} />
             </div>
             <p className={'text-gray-600 text-[0.6rem] select-none'}>{'['}{article.tags.join(', ')}{']'}</p> */}
-      <Link href={project.link}>
-        <a className='text-lg'>{project.name}</a>
+      <Link href={project.link} className='text-lg'>
+        {project.name}
       </Link>
       <div className='flex flex-row justify-left mb-2'>
         {project.languages?.slice(0, 10).map((language, idx) => {
@@ -33,6 +33,15 @@ export default function ProjectListElement({
           );
         })}
       </div>
+      {project.image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.image.src}
+          alt={project.image.alt}
+          loading='lazy'
+          className='w-full h-auto mb-3 border border-gray-400'
+        />
+      )}
       <p className={'text-gray-600 text-base'}>
         {descLimit
           ? project.description.length > descLimit

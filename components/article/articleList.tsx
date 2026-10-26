@@ -30,8 +30,8 @@ export default function ArticleList({
             'block text-center p-1 my-2 border-solid border-2 border-black'
           }
         >
-          <Link href='/blog'>
-            <a className={'underline'}>View more articles</a>
+          <Link href='/blog' className={'underline'}>
+            View more articles
           </Link>
         </div>
       )}

@@ -12,6 +12,7 @@ export type Metadata = {
   };
   link: string;
   languages?: Language[];
+  image?: { src: string; alt: string };
 };
 
 export enum Language {
@@ -23,6 +24,7 @@ export enum Language {
   GO,
   WITCHER_SCRIPT,
   CSHARP,
+  PYTHON,
 }
 
 export type LanguageInfo = {
@@ -57,70 +59,84 @@ export function getLanguageInfo(language: Language): LanguageInfo {
     case Language.CSHARP:
       ret = { name: 'C#', color: '#178600' };
       break;
+    case Language.PYTHON:
+      ret = { name: 'Python', color: '#3572A5' };
+      break;
   }
   return ret;
 }
 
 const projects: Metadata[] = [
   {
-    name: 'AwesomeSciBo',
-    description:
-      'Open-source Discord bot that aims to aid up-and-coming Scibowlers with randomly generated (non-stock) rounds and training. It has many features, including subject-targeted training, a cross-server leaderboard, and a plethora of slash commands!',
-    used: {
-      inOrBy: InOrBy.BY,
-      what: ['over 1600 people in over 400 servers'],
-    },
-    link: 'https://github.com/abheekda1/AwesomeSciBo',
-    languages: [Language.TYPESCRIPT, Language.JAVASCRIPT],
-  },
-  {
     name: 'Wwise Audio Tools',
     description:
-      "A collection of tools to manipulate Wwise's elusive WEM file format and its accomplices",
-    used: {
-      inOrBy: InOrBy.IN,
-      what: ['The WolvenKit Project'],
-    },
+      'Reverse-engineered Wwise audio formats and built reusable C++ libraries and a CLI to decode game audio from WEM to OGG. Used as a shared dependency in WolvenKit (1.2k+ GitHub stars) so the modding toolkit can decode game audio as part of its asset pipeline.',
     link: 'https://github.com/WolvenKit/wwise-audio-tools',
     languages: [Language.CPP],
   },
   {
+    name: 'Sonara',
+    description:
+      'Routes patient tasks out of clinical conversations by combining Deepgram speech-to-text with Hugging Face zero-shot classification, helping cut clinician note-taking time by 35%. Runner-up at the 2025 NYC ASA AI4Purpose Hackathon.',
+    link: 'https://github.com/abheekda1/sonara',
+    languages: [Language.PYTHON, Language.TYPESCRIPT],
+  },
+  {
+    name: 'AwesomeSciBo',
+    description:
+      'Open-source Science Bowl training bot with more than 2,000 peak users, featuring subject-targeted practice rounds, slash commands, and cross-server leaderboards. Now maintained as training software for the Yale Undergraduate Science Bowl.',
+    link: 'https://github.com/abheekda1/AwesomeSciBo',
+    languages: [Language.TYPESCRIPT],
+  },
+  {
+    name: 'Quantum Hardware Scrollyteller',
+    description:
+      'A scroll-driven timeline of quantum hardware progress, plotting qubit count against two-qubit gate error on log-log axes as superconducting and trapped-ion devices close the gap from 2003 to today.',
+    link: 'https://github.com/abheekda1/quantum-scrollyteller',
+    languages: [Language.TYPESCRIPT],
+    image: {
+      src: '/img/projects/quantum-scrollyteller.webp',
+      alt: 'Dot plot titled Bridging the Gap showing qubit count versus two-qubit gate error rate for superconducting and trapped-ion quantum computers from 2003 to 2023.',
+    },
+  },
+  {
+    name: 'abheekd-lang',
+    description:
+      'An end-to-end compiler for a custom language, with a handwritten lexer and parser, LLVM IR generation, and native object-code output.',
+    link: 'https://github.com/abheekda1/abheekd-lang',
+    languages: [Language.CPP],
+  },
+  {
+    name: 'Ricochet Robots Agent',
+    description:
+      'Compares BFS, iterative deepening, Monte Carlo tree search, and value iteration on the Ricochet Robots puzzle across 2–4 robots, measuring success rate, solution length, and runtime. Built with Kashvi Pundir and Daniel Wang.',
+    link: 'https://github.com/abheekda1/ricochet-robots-agent',
+    languages: [Language.PYTHON],
+  },
+  {
     name: 'Raycasting Engine',
     description:
-      'Work-in-progress raycasting engine for an AP Computer Science individual project',
+      'A 3D raycasting engine in Java that simulates early first-person rendering and collision logic, built to explore computer graphics fundamentals.',
     link: 'https://github.com/abheekda1/raycaster',
     languages: [Language.JAVA],
   },
   {
     name: 'Brainfuck Interpreter',
     description:
-      'A simple brainfuck interpreter in x64 NASM to learn more about Assembly and its fundamentals',
+      'A brainfuck interpreter written in x64 NASM to learn the fundamentals of Assembly.',
     link: 'https://github.com/abheekda1/brainf-interpreter',
     languages: [Language.ASSEMBLY],
   },
   {
-    name: 'Curve Fitting',
-    description:
-      'A WIP library to fit many different types of functions, such as polynomials, logarithms, and exponentials',
-    link: 'https://github.com/abheekda1/curve-fitting',
-    languages: [Language.CPP],
-  },
-  {
-    name: 'Lotsa Commits',
-    description: 'Pushing the limits of Git commits',
-    link: 'https://github.com/abheekda1/lotsa-commits',
-    languages: [Language.GO],
-  },
-  {
     name: 'The Witcher 3 Achievement StatTrak',
     description:
-      'Simple Witcher 3 mod that adds a book to list achievement progress',
+      'A Witcher 3 mod that adds an in-game book listing achievement progress, one of several mods with more than 15,000 combined downloads on Nexus Mods.',
     link: 'https://github.com/abheekda1/tw3-modAchievementStatTrak',
     languages: [Language.WITCHER_SCRIPT],
   },
 ];
 
-export default async function () {
+export default async function getProject() {
   return {
     props: {
       projects: projects,

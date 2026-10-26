@@ -2,7 +2,7 @@ import { Metadata } from '../../components/article/articleLayout';
 import Link from 'next/link';
 import getArticles from '../../util/getArticles';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import Layout from '../../components/layout';
 import ArticleList from '../../components/article/articleList';
 
@@ -18,24 +18,13 @@ const Blog = ({
 }) => {
   const router = useRouter();
 
-  const [articleList, setArticleList] = useState<Array<Metadata>>(articles);
-
-  const filteredArticles = articles;
-  useEffect(() => {
-    setArticleList(
-      filteredArticles.filter((a) => {
-        if (router.query.tags) {
-          const queryTags = router.query.tags.toString().split(',');
-          if (queryTags.filter((t) => a.tags.includes(t)).length > 0) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-        return true;
-      })
-    );
-  }, [filteredArticles, router]);
+  // Filter by ?tags=a,b once the query is available on the client.
+  const tagQuery = router.query.tags?.toString();
+  const articleList = useMemo(() => {
+    if (!tagQuery) return articles;
+    const queryTags = tagQuery.split(',');
+    return articles.filter((a) => queryTags.some((t) => a.tags.includes(t)));
+  }, [articles, tagQuery]);
 
   {
     /* todo: search */
@@ -52,8 +41,10 @@ const Blog = ({
             const params = new URLSearchParams({ tags: t });
             return (
               <span key={idx}>
-                <Link href={`/blog/?${params.toString()}`}>
-                  <a className='inline-block ml-2 text-xs text-gray-600'>{t}</a>
+                <Link
+                  href={`/blog/?${params.toString()}`}
+                  className='inline-block ml-2 text-xs text-gray-600'>
+                  {t}
                 </Link>
                 {','}
               </span>
