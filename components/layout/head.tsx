@@ -9,7 +9,7 @@ export default function Head({ title }: { title: string }) {
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       <meta
         name='description'
-        content="Abheek Dhawan: Computer Science & Astrophysics student at Yale. Experience, projects, and writing."
+        content="Abheek Dhawan: Computer Science & Astrophysics student at Yale. Experience, research, projects, and writing."
       />
       <meta property='og:title' content={`${title} ⸬ Abheek Dhawan`} />
       <meta property='og:type' content='website' />
@@ -18,7 +18,7 @@ export default function Head({ title }: { title: string }) {
       <meta
         property='og:description'
         content={
-          "I'm Abheek Dhawan, a Computer Science & Astrophysics student at Yale. Here you'll find my experience, projects, and writing, from research software and tools used by thousands of students to reverse-engineered game audio formats."
+          "I'm Abheek Dhawan, a Computer Science & Astrophysics student at Yale. I build software people use, like CourseTable and interactive quantum computing courseware, and research high-redshift galaxy evolution."
         }
       />
       <meta name='theme-color' content='#112' />

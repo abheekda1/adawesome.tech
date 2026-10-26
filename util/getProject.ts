@@ -12,6 +12,7 @@ export type Metadata = {
   };
   link: string;
   languages?: Language[];
+  image?: { src: string; alt: string };
 };
 
 export enum Language {
@@ -67,44 +68,50 @@ export function getLanguageInfo(language: Language): LanguageInfo {
 
 const projects: Metadata[] = [
   {
-    name: 'CourseTable',
+    name: 'Wwise Audio Tools',
     description:
-      "Implemented full progressive web app (PWA) support, including offline caching and install prompts, for Yale's most popular unofficial course browsing platform, used by over 95% of students.",
-    used: {
-      inOrBy: InOrBy.BY,
-      what: ['over 95% of Yale students'],
-    },
-    link: 'https://github.com/coursetable/coursetable',
-    languages: [Language.TYPESCRIPT],
+      'Reverse-engineered Wwise audio formats and built reusable C++ libraries and a CLI to decode game audio from WEM to OGG. Used as a shared dependency in WolvenKit (1.2k+ GitHub stars) so the modding toolkit can decode game audio as part of its asset pipeline.',
+    link: 'https://github.com/WolvenKit/wwise-audio-tools',
+    languages: [Language.CPP],
   },
   {
     name: 'Sonara',
     description:
-      'Automated transcript classification and summarization system built on Deepgram streaming and HuggingFace zero-shot models. Runner-up at the NYC ASA AI4Purpose Hackathon (2025).',
+      'Routes patient tasks out of clinical conversations by combining Deepgram speech-to-text with Hugging Face zero-shot classification, helping cut clinician note-taking time by 35%. Runner-up at the 2025 NYC ASA AI4Purpose Hackathon.',
     link: 'https://github.com/abheekda1/sonara',
-    languages: [Language.PYTHON],
+    languages: [Language.PYTHON, Language.TYPESCRIPT],
   },
   {
     name: 'AwesomeSciBo',
     description:
-      'The most popular Science Bowl training Discord bot (over 2,000 peak users), with subject-targeted rounds, randomly generated (non-stock) questions, and a live, competitive cross-server leaderboard.',
-    used: {
-      inOrBy: InOrBy.BY,
-      what: ['over 2,000 peak users'],
-    },
+      'Open-source Science Bowl training bot with more than 2,000 peak users, featuring subject-targeted practice rounds, slash commands, and cross-server leaderboards. Now maintained as training software for the Yale Undergraduate Science Bowl.',
     link: 'https://github.com/abheekda1/AwesomeSciBo',
-    languages: [Language.TYPESCRIPT, Language.JAVASCRIPT],
+    languages: [Language.TYPESCRIPT],
   },
   {
-    name: 'Wwise Audio Tools',
+    name: 'Quantum Hardware Scrollyteller',
     description:
-      'C++ toolset for reverse-engineering and decoding Wwise SoundBank and WEM files, letting mod developers inspect and extract game audio assets.',
-    used: {
-      inOrBy: InOrBy.IN,
-      what: ['The WolvenKit Project'],
+      'A scroll-driven timeline of quantum hardware progress, plotting qubit count against two-qubit gate error on log-log axes as superconducting and trapped-ion devices close the gap from 2003 to today.',
+    link: 'https://github.com/abheekda1/quantum-scrollyteller',
+    languages: [Language.TYPESCRIPT],
+    image: {
+      src: '/img/projects/quantum-scrollyteller.webp',
+      alt: 'Dot plot titled Bridging the Gap showing qubit count versus two-qubit gate error rate for superconducting and trapped-ion quantum computers from 2003 to 2023.',
     },
-    link: 'https://github.com/WolvenKit/wwise-audio-tools',
+  },
+  {
+    name: 'abheekd-lang',
+    description:
+      'An end-to-end compiler for a custom language, with a handwritten lexer and parser, LLVM IR generation, and native object-code output.',
+    link: 'https://github.com/abheekda1/abheekd-lang',
     languages: [Language.CPP],
+  },
+  {
+    name: 'Ricochet Robots Agent',
+    description:
+      'Compares BFS, iterative deepening, Monte Carlo tree search, and value iteration on the Ricochet Robots puzzle across 2–4 robots, measuring success rate, solution length, and runtime. Built with Kashvi Pundir and Daniel Wang.',
+    link: 'https://github.com/abheekda1/ricochet-robots-agent',
+    languages: [Language.PYTHON],
   },
   {
     name: 'Raycasting Engine',
@@ -123,7 +130,7 @@ const projects: Metadata[] = [
   {
     name: 'The Witcher 3 Achievement StatTrak',
     description:
-      'A Witcher 3 mod that adds an in-game book listing achievement progress, published as a verified Nexus Mods author.',
+      'A Witcher 3 mod that adds an in-game book listing achievement progress, one of several mods with more than 15,000 combined downloads on Nexus Mods.',
     link: 'https://github.com/abheekda1/tw3-modAchievementStatTrak',
     languages: [Language.WITCHER_SCRIPT],
   },

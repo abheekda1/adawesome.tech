@@ -33,6 +33,15 @@ export default function ProjectListElement({
           );
         })}
       </div>
+      {project.image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.image.src}
+          alt={project.image.alt}
+          loading='lazy'
+          className='w-full h-auto mb-3 border border-gray-400'
+        />
+      )}
       <p className={'text-gray-600 text-base'}>
         {descLimit
           ? project.description.length > descLimit

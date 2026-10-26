@@ -8,11 +8,26 @@ export type Experience = {
 
 const experience: Experience[] = [
   {
+    organization: 'CourseTable',
+    role: 'Software Engineer',
+    dates: 'August 2024 – Present',
+    description:
+      "Build and maintain Yale's course-planning platform, used by more than 95% of students. Improved course search and UI/UX in an established TypeScript/React codebase, and implemented PWA installation and offline caching so saved course plans work without a network connection.",
+    link: 'https://coursetable.com',
+  },
+  {
+    organization: 'Universidad de Chile',
+    role: 'Astrophysics Research Assistant (Tetelman Fellowship)',
+    dates: 'June 2026 – August 2026',
+    description:
+      'Built a modular Python pipeline to study the star-forming main sequence across 1,380 simulated galaxies from SPHINX20, comparing star formation over 3–100 Myr timescales and modeling how the catalogue’s selection biases the fitted relation.',
+  },
+  {
     organization: 'Yale Quantum Institute',
-    role: 'Research Assistant',
+    role: 'Software Engineer',
     dates: 'June 2025 – August 2025',
     description:
-      'Developed interactive visualizations under Prof. Yongshan Ding to teach and demonstrate quantum computing concepts.',
+      'Built and deployed visual-notes, interactive courseware for Yale CPSC 4470 used in lectures to teach seven quantum computing concepts. Developed scroll-driven circuit, Bloch sphere, and Feynman path visualizations with React Three Fiber, and set up the testing and linting workflow.',
     link: 'https://quantuminstitute.yale.edu',
   },
   {
@@ -28,14 +43,6 @@ const experience: Experience[] = [
     dates: 'September 2021 – September 2023',
     description:
       'Designed and implemented natural language processing pipelines to extract and tag key patient information, such as medications and demographics, from clinical reports.',
-  },
-  {
-    organization: 'Summer Science Program',
-    role: 'Researcher',
-    dates: 'June 2023 – July 2023',
-    description:
-      'Captured asteroid images using the UNC-Chapel Hill Morehead Observatory and implemented the Method of Gauss in Python to derive orbital elements and model trajectories.',
-    link: 'https://summerscience.org',
   },
 ];
 

@@ -5,8 +5,8 @@ Personal portfolio and blog for Abheek Dhawan, built with Next.js, MDX, and Tail
 ## Development
 
 ```bash
-yarn install
-yarn dev
+bun install
+bun dev
 ```
 
 Then open [http://localhost:3000](http://localhost:3000).
@@ -14,7 +14,8 @@ Then open [http://localhost:3000](http://localhost:3000).
 ## Editing content
 
 - **Experience:** `util/getExperience.ts`
-- **Projects:** `util/getProject.ts`
+- **Research:** `util/getResearch.ts` (images in `public/img/research/`)
+- **Projects:** `util/getProject.ts` (images in `public/img/projects/`)
 - **Blog posts:** add an `.mdx` file to `pages/blog/` with an exported `meta` object (title, description, author, tags, timestamp)
 - **Resume:** replace `public/docs/resume.pdf`
-- **Homepage intro and links:** `pages/index.tsx`
+- **Homepage intro, links, leadership and awards:** `pages/index.tsx`
